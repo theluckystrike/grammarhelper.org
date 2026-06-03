@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://grammarhelper.org/sitemap.xml

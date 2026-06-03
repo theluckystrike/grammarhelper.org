@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Run-On Sentence Fixer — Detect & Fix Long Sentences</title>
+  <meta name="description" content="Fix run-on sentences and comma splices. Paste text, get 3 fix options, improve readability. Practice mode & rules reference.">
+  <link rel="canonical" href="https://grammarhelper.org/run-on-fixer">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Run-On Sentence Fixer",
+    "url": "https://grammarhelper.org/run-on-fixer",
+    "description": "Detect and fix run-on sentences and comma splices with interactive suggestions.",
+    "applicationCategory": "Educational Application",
+    "browserRequirements": "JavaScript enabled"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"What is a run-on sentence?","acceptedAnswer":{"@type":"Answer","text":"A run-on sentence contains two or more independent clauses joined without proper punctuation or conjunction, often exceeding 40 words."}},
+      {"@type":"Question","name":"What is a comma splice?","acceptedAnswer":{"@type":"Answer","text":"A comma splice occurs when two independent clauses are joined only by a comma without a coordinating conjunction."}}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Grammar Helper","item":"https://grammarhelper.org/"},
+      {"@type":"ListItem","position":2,"name":"Run-On Fixer","item":"https://grammarhelper.org/run-on-fixer"}
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #e0e0e0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; padding: 2rem 1rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1, h2, h3 { color: #fff; font-weight: 500; letter-spacing: 0.01em; }
+    h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.6rem; margin: 2rem 0 0.75rem; border-bottom: 1px solid #2a2a2a; padding-bottom: 0.25rem; }
+    h3 { font-size: 1.2rem; margin-top: 1.5rem; }
+    .accent { color: #ff7043; }
+    .card { background: #1a1a1a; border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
+    textarea, .tool-input { width: 100%; background: #121212; border: 1px solid #333; color: #e0e0e0; border-radius: 12px; padding: 1rem; font-size: 1rem; resize: vertical; font-family: inherit; }
+    textarea:focus { outline: 2px solid #ff7043; border-color: transparent; }
+    .btn { background: #2a2a2a; color: #e0e0e0; border: none; padding: 0.7rem 1.6rem; border-radius: 40px; font-weight: 500; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
+    .btn-primary { background: #ff7043; color: #0a0a0a; }
+    .btn-primary:hover { background: #ff8a65; }
+    .btn-outline { background: transparent; border: 1px solid #ff7043; color: #ff7043; }
+    .btn-outline:hover { background: #ff704322; }
+    .flex { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin: 0.8rem 0; }
+    .badge { display: inline-block; background: #2a2a2a; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.8rem; }
+    .runon-highlight { background: #8b0000; color: #fff; padding: 0.1rem 0.2rem; border-radius: 4px; }
+    .comma-splice-highlight { background: #b85c00; color: #fff; padding: 0.1rem 0.2rem; border-radius: 4px; }
+    .fix-option { background: #252525; border-radius: 12px; padding: 0.8rem 1rem; margin: 0.5rem 0; border-left: 4px solid #ff7043; }
+    .fix-option button { margin-right: 0.5rem; }
+    .stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 0.5rem 0; }
+    .stat-item { background: #1f1f1f; padding: 0.5rem 1.2rem; border-radius: 30px; font-size: 0.9rem; }
+    .reference-panel { background: #111; border-radius: 16px; padding: 1.2rem; border: 1px solid #2a2a2a; }
+    .reference-panel ul { padding-left: 1.2rem; }
+    .reference-panel li { margin: 0.3rem 0; }
+    .footer { margin-top: 3rem; text-align: center; color: #666; }
+    .footer a { color: #ff7043; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .practice-box { background: #1c1c1c; border-radius: 16px; padding: 1rem 1.5rem; margin: 1rem 0; }
+    .practice-sentence { background: #222; padding: 0.8rem; border-radius: 10px; margin: 0.5rem 0; }
+    .feedback { font-size: 0.9rem; margin-top: 0.3rem; }
+    .inline-fix { background: #2a2a2a; padding: 0.2rem 0.6rem; border-radius: 20px; display: inline-block; margin: 0.2rem 0; }
+    hr { border: 0; border-top: 1px solid #2a2a2a; margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1><span class="accent">⟳</span> Run-On Sentence Fixer</h1>
+    <p style="color:#aaa; font-size:1.1rem;">Detect & fix run‑ons, comma splices, and overlength sentences. Paste your text below.</p>
+  </header>
+
+  <!-- Breadcrumb (visual) -->
+  <nav style="font-size:0.85rem; color:#888; margin:0.5rem 0 1rem;">
+    <a href="https://grammarhelper.org/" style="color:#ff7043;">Grammar Helper</a> / <span>Run-On Fixer</span>
+  </nav>
+
+  <!-- MAIN TOOL -->
+  <div class="card">
+    <label for="inputText" style="font-weight:500;">Paste your text:</label>
+    <textarea id="inputText" rows="6" placeholder="Enter sentences with possible run-ons or comma splices...">She loves writing she never finds time. It was raining, we stayed inside. The experiment failed the team was disappointed, they started again. This is a fine sentence. Another long sentence that might be okay but we need to check its length and structure carefully because it could be a run-on if it goes beyond forty words without proper punctuation or conjunctions.</textarea>
+    <div class="flex">
+      <button class="btn btn-primary" id="analyzeBtn">🔍 Analyze text</button>
+      <button class="btn btn-outline" id="clearBtn">Clear</button>
+      <span id="wordCount" class="badge">0 words</span>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsArea"></div>
+
+  <!-- Practice Mode -->
+  <h2>📝 Practice mode</h2>
+  <p style="color:#aaa;">Fix these 10 run‑on sentences. Type your correction and get feedback.</p>
+  <div id="practiceContainer" class="practice-box"></div>
+
+  <!-- Rules Reference -->
+  <h2>📖 Rules reference</h2>
+  <div class="reference-panel">
+    <h3 style="margin-top:0;">Run‑on vs Comma splice</h3>
+    <ul>
+      <li><strong>Run‑on sentence</strong> (fused sentence): two independent clauses joined without any punctuation or conjunction. <em>“I love grammar it is fun.”</em></li>
+      <li><strong>Comma splice</strong>: two independent clauses joined only by a comma. <em>“I love grammar, it is fun.”</em></li>
+      <li><strong>Overlength</strong>: sentence &gt;40 words may be a run‑on, even if punctuated.</li>
+      <li><strong>Fix options:</strong> split into separate sentences, add semicolon, or add coordinating conjunction (FANBOYS: for, and, nor, but, or, yet, so).</li>
+    </ul>
+    <p style="margin-top:0.8rem; color:#bbb;">Detection: two independent clauses without conjunction, or comma splice pattern, or length &gt;40 words with multiple subjects/predicates.</p>
+  </div>
+
+  <footer class="footer">
+    <p><a href="https://grammarhelper.org/">← Back to GrammarHelper.org</a></p>
+    <p style="font-size:0.8rem;">© Grammar Helper — language tools for clarity</p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    const inputEl = document.getElementById('inputText');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const wordCount = document.getElementById('wordCount');
+    const resultsArea = document.getElementById('resultsArea');
+    const practiceContainer = document.getElementById('practiceContainer');
+
+    // ---------- practice sentences ----------
+    const practiceSentences = [
+      "I love coding it is my passion.",
+      "She went to the store, she bought milk.",
+      "The sun is shining we should go outside.",
+      "He finished his work he went home.",
+      "I wanted to come, I was too tired.",
+      "The movie was long it was boring.",
+      "She studies hard she gets good grades.",
+      "We missed the bus, we were late for school.",
+      "He likes coffee she prefers tea.",
+      "The dog barked, the cat ran away."
+    ];
+
+    function renderPractice() {
+      practiceContainer.innerHTML = '';
+      practiceSentences.forEach((sent, idx) => {
+        const div = document.createElement('div');
+        div.className = 'practice-sentence';
+        div.innerHTML = `
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem;">
+            <span style="font-weight:500; min-width:2rem;">${idx+1}.</span>
+            <span style="flex:1; color:#ddd;">“${sent}”</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;">
+            <input type="text" id="practiceInput-${idx}" placeholder="Your fixed sentence..." style="background:#121212; border:1px solid #444; color:#e0e0e0; border-radius:30px; padding:0.4rem 1rem; flex:1; min-width:200px;">
+            <button class="btn btn-primary" data-pidx="${idx}" style="padding:0.4rem 1.2rem;">Check</button>
+            <span id="practiceFeedback-${idx}" class="feedback" style="width:100%;"></span>
+          </div>
+        `;
+        practiceContainer.appendChild(div);
+      });
+      // attach check events
+      practiceContainer.querySelectorAll('button[data-pidx]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const idx = parseInt(this.dataset.pidx);
+          const input = document.getElementById(`practiceInput-${idx}`);
+          const feedback = document.getElementById(`practiceFeedback-${idx}`);
+          const original = practiceSentences[idx];
+          const userFix = input.value.trim();
+          if (!userFix) {
+            feedback.innerHTML = '✏️ Please write a correction.';
+            feedback.style.color = '#ffaa66';
+            return;
+          }
+          // simple heuristic: if user splits or adds conjunction/semicolon, consider fixed.
+          const hasPeriod = userFix.includes('.');
+          const hasSemicolon = userFix.includes(';');
+          const hasFANBOYS = /\b(for|and|nor|but|or|yet|so)\b/i.test(userFix);
+          const wordCountFix = userFix.split(/\s+/).length;
+          if (hasPeriod || hasSemicolon || (hasFANBOYS && wordCountFix > 3)) {
+            feedback.innerHTML = '✅ Good fix! (run‑on resolved)';
+            feedback.style.color = '#8bc34a';
+          } else {
+            feedback.innerHTML = '⚠️ Still looks like a run‑on. Try splitting, adding a semicolon, or a conjunction (FANBOYS).';
+            feedback.style.color = '#ffaa66';
+          }
+        });
+      });
+    }
+    renderPractice();
+
+    // ---------- detection engine ----------
+    function detectRunonsAndSplices(text) {
+      if (!text.trim()) return [];
+      const sentences = text.match(/[^.!?]+[.!?]*/g) || [text];
+      const results = [];
+      const FANBOYS = ['for','and','nor','but','or','yet','so'];
+
+      sentences.forEach((rawSent, idx) => {
+        let sent = rawSent.trim();
+        if (!sent) return;
+        const wordCount = sent.split(/\s+/).length;
+        // check comma splice pattern: two independent clauses separated by comma without conjunction
+        const commaSplit = sent.split(',').filter(s => s.trim().length > 0);
+        let isCommaSplice = false;
+        if (commaSplit.length >= 2) {
+          // check if any comma is not followed by FANBOYS
+          for (let i = 0; i < commaSplit.length-1; i++) {
+            const afterComma = commaSplit[i+1].trim().toLowerCase();
+            const startsWithFanboys = FANBOYS.some(fb => afterComma.startsWith(fb + ' ') || afterComma === fb);
+            if (!startsWithFanboys) {
+              // check if both sides could be independent (simple heuristic: both have verb-like words)
+              const left = commaSplit[i].trim();
+              const right = commaSplit[i+1].trim();
+              if (left.split(/\s+/).length > 2 && right.split(/\s+/).length > 2) {
+                isCommaSplice = true;
+                break;
+              }
+            }
+          }
+        }
+        // run-on detection: two independent clauses without punctuation or conjunction
+        let isRunon = false;
+        // check for missing punctuation between clauses: e.g., "I love it it is great"
+        const clausePattern = /[^.!?;:]+/g;
+        const clauses = sent.match(clausePattern) || [];
+        if (clauses.length >= 2 && !/[.!?;]/.test(sent)) {
+          // if there are multiple potential clauses and no punctuation
+          const firstClause = clauses[0].trim();
+          const secondClause = clauses[1].trim();
+          if (firstClause.split(/\s+/).length > 2 && secondClause.split(/\s+/).length > 2) {
+            // check no conjunction between
+            const lower = sent.toLowerCase();
+            const hasConj = FANBOYS.some(fb => lower.includes(' ' + fb + ' '));
+            if (!hasConj && !/[;:]/.test(sent)) {
+              isRunon = true;
+            }
+          }
+        }
+        // overlength >40 words also flagged as run-on
+        if (wordCount > 40 && !isRunon && !isCommaSplice) {
+          isRunon = true; // treat as run-on
+        }
+
+        if (isRunon || isCommaSplice) {
+          results.push({
+            sentence: sent,
+            index: idx,
+            isRunon,
+            isCommaSplice,
+            wordCount
+          });
+        }
+      });
+      return results;
+    }
+
+    // generate fix options
+    function generateFixes(sentence) {
+      const fixes = [];
+      // option a: split into separate sentences (by inserting period)
+      const splitSentences = sentence.replace(/,/g, '.').replace(/(\w)\s+(\w)/g, (m, a, b) => {
+        // crude split: try to insert period after first verb or noun? use simple heuristic: after first 3 words?
+        return a + '. ' + b;
+      });
+      fixes.push({ label: 'Split into separate sentences', text: splitSentences });
+
+      // option b: add semicolon (replace first comma or insert)
+      let semicolonFix = sentence;
+      if (semicolonFix.includes(',')) {
+        semicolonFix = semicolonFix.replace(',', ';');
+      } else {
+        // insert semicolon after first 2-3 words
+        const words = semicolonFix.split(/\s+/);
+        if (words.length > 3) {
+          words.splice(2, 0, ';');
+          semicolonFix = words.join(' ');
+        }
+      }
+      fixes.push({ label: 'Add semicolon', text: semicolonFix });
+
+      // option c: add coordinating conjunction (FANBOYS) after comma or between clauses
+      let conjFix = sentence;
+      if (conjFix.includes(',')) {
+        conjFix = conjFix.replace(',', ', and');
+      } else {
+        const words = conjFix.split(/\s+/);
+        if (words.length > 4) {
+          words.splice(3, 0, 'and');
+          conjFix = words.join(' ');
+        } else {
+          conjFix = conjFix + ' and then';
+        }
+      }
+      fixes.push({ label: 'Add conjunction (FANBOYS)', text: conjFix });
+
+      return fixes;
+    }
+
+    function analyzeText() {
+      const text = inputEl.value;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      wordCount.textContent = words + ' words';
+
+      const issues = detectRunonsAndSplices(text);
+      if (issues.length === 0) {
+        resultsArea.innerHTML = `<div class="card" style="background:#1a3a1a; border-left:6px solid #8bc34a;"><span style="font-weight:500;">✅ No run-on sentences or comma splices detected.</span> (Readability score: good)</div>`;
+        return;
+      }
+
+      let html = `<div class="card"><h3 style="margin-top:0;">🔎 Found ${issues.length} issue(s)</h3>`;
+      let readabilityScore = Math.max(0, 100 - issues.length * 12);
+      html += `<div class="stats"><span class="stat-item">📊 Readability score: ${readabilityScore}%</span></div>`;
+
+      issues.forEach((issue, i) => {
+        const type = issue.isRunon ? 'run-on' : 'comma splice';
+        const highlightClass = issue.isRunon ? 'runon-highlight' : 'comma-splice-highlight';
+        html += `<div style="background:#1e1e1e; border-radius:12px; padding:1rem; margin:1rem 0; border-left:6px solid ${issue.isRunon ? '#8b0000' : '#b85c00'};">`;
+        html += `<div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;"><span class="badge ${highlightClass}" style="font-weight:600;">${type}</span> <span style="color:#aaa;">${issue.wordCount} words</span></div>`;
+        html += `<p style="margin:0.5rem 0; background:#121212; padding:0.5rem; border-radius:8px;">“${issue.sentence}”</p>`;
+
+        const fixes = generateFixes(issue.sentence);
+        html += `<div style="margin-top:0.5rem;"><strong>✏️ Fix options:</strong></div>`;
+        fixes.forEach((fix, fi) => {
+          html += `<div class="fix-option"><span style="font-weight:500;">${fix.label}:</span> <span style="color:#ccc;">${fix.text}</span></div>`;
+        });
+        html += `</div>`;
+      });
+      html += `</div>`;
+      resultsArea.innerHTML = html;
+    }
+
+    analyzeBtn.addEventListener('click', analyzeText);
+    clearBtn.addEventListener('click', function() {
+      inputEl.value = '';
+      resultsArea.innerHTML = '';
+      wordCount.textContent = '0 words';
+    });
+
+    // initial analysis
+    analyzeText();
+
+    // word count on input
+    inputEl.addEventListener('input', function() {
+      const words = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+      wordCount.textContent = words + ' words';
+    });
+
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comma Splice Detector — Find & Fix Comma Errors</title>
+  <meta name="description" content="Detect comma splices in your text, learn with 15 examples, and test your skills with a 10-sentence quiz. Free interactive grammar tool.">
+  <link rel="canonical" href="https://grammarhelper.org/comma-splice-detector">
+  <meta name="theme-color" content="#0a0a0a">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Comma Splice Detector",
+    "url": "https://grammarhelper.org/comma-splice-detector",
+    "description": "Detect comma splices in your text, learn with 15 examples, and test your skills with a 10-sentence quiz.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"What is a comma splice?","acceptedAnswer":{"@type":"Answer","text":"A comma splice occurs when two independent clauses are joined by only a comma without a coordinating conjunction."}},
+      {"@type":"Question","name":"How do you fix a comma splice?","acceptedAnswer":{"@type":"Answer","text":"You can fix it with a period, semicolon, adding a conjunction, or making one clause dependent."}}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Grammar Helper","item":"https://grammarhelper.org/"},
+      {"@type":"ListItem","position":2,"name":"Comma Splice Detector","item":"https://grammarhelper.org/comma-splice-detector"}
+    ]
+  }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0a; color: #e0e0e0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; padding: 1.5rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    h1, h2, h3 { font-weight: 400; letter-spacing: -0.02em; }
+    h1 { font-size: 2.2rem; border-left: 4px solid #ff7043; padding-left: 1rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.6rem; margin: 2rem 0 1rem; color: #ffccbc; }
+    h3 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; color: #ffab91; }
+    .accent { color: #ff7043; }
+    .card { background: #1a1a1a; border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+    textarea { width: 100%; background: #121212; color: #e0e0e0; border: 1px solid #333; border-radius: 12px; padding: 1rem; font-size: 1rem; resize: vertical; min-height: 120px; }
+    textarea:focus { outline: 2px solid #ff7043; }
+    .btn { background: #ff7043; color: #0a0a0a; border: none; font-weight: 600; padding: 0.6rem 1.4rem; border-radius: 40px; cursor: pointer; font-size: 0.95rem; transition: 0.2s; margin-right: 0.5rem; margin-top: 0.5rem; }
+    .btn-outline { background: transparent; border: 1px solid #ff7043; color: #ff7043; }
+    .btn-outline:hover { background: #ff7043; color: #0a0a0a; }
+    .btn:hover { background: #ff8a65; }
+    .stat-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; }
+    .stat-card { background: #121212; padding: 0.8rem 1.2rem; border-radius: 40px; border: 1px solid #2a2a2a; }
+    .stat-card span { font-weight: 300; color: #aaa; }
+    .stat-card strong { color: #ff7043; font-size: 1.2rem; }
+    .splice-item { background: #2a1a1a; border-left: 4px solid #ff7043; padding: 1rem; border-radius: 0 12px 12px 0; margin: 1rem 0; }
+    .splice-item p { margin: 0.3rem 0; }
+    .fix-options { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+    .fix-btn { background: #333; border: none; color: #e0e0e0; padding: 0.4rem 1rem; border-radius: 30px; font-size: 0.8rem; cursor: pointer; transition: 0.15s; }
+    .fix-btn:hover { background: #ff7043; color: #0a0a0a; }
+    .highlight { background: #ff704333; border-bottom: 2px solid #ff7043; padding: 0 0.2rem; }
+    .example-list { columns: 1; gap: 0.6rem; }
+    .example-list li { background: #121212; padding: 0.5rem 1rem; border-radius: 30px; list-style: none; margin-bottom: 0.5rem; border-left: 3px solid #ff7043; }
+    .quiz-question { background: #1a1a1a; padding: 1rem; border-radius: 16px; margin: 0.8rem 0; }
+    .quiz-question p { margin-bottom: 0.5rem; }
+    .quiz-btn { background: #2a2a2a; border: 1px solid #444; color: #e0e0e0; padding: 0.3rem 1rem; border-radius: 30px; margin-right: 0.5rem; cursor: pointer; }
+    .quiz-btn.selected { background: #ff7043; color: #0a0a0a; border-color: #ff7043; }
+    .quiz-btn.correct { background: #4caf50; border-color: #4caf50; color: #fff; }
+    .quiz-btn.wrong { background: #b71c1c; border-color: #b71c1c; color: #fff; }
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #222; text-align: center; font-size: 0.9rem; }
+    .footer a { color: #ff7043; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    @media (max-width: 600px) { h1 { font-size: 1.8rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🔍 Comma Splice Detector</h1>
+    <p style="color:#aaa;">Find & fix comma splices — two independent clauses joined only by a comma.</p>
+  </header>
+
+  <!-- Breadcrumb (visible) -->
+  <nav style="margin: 0.5rem 0 1.5rem; font-size:0.85rem; color:#888;">
+    <a href="https://grammarhelper.org/" style="color:#ff7043; text-decoration:none;">Grammar Helper</a> / <span>Comma Splice Detector</span>
+  </nav>
+
+  <!-- MAIN TOOL -->
+  <section class="card">
+    <h2>📝 Paste your text</h2>
+    <textarea id="inputText" placeholder="Paste or type text here...">She walked to the store, she bought milk. I love grammar, it's fun. He ran fast, he won the race. But I stayed home because it rained.</textarea>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+      <button class="btn" id="detectBtn">🔎 Detect comma splices</button>
+      <button class="btn btn-outline" id="clearBtn">Clear</button>
+    </div>
+  </section>
+
+  <!-- STATISTICS -->
+  <div class="stat-grid" id="statGrid">
+    <div class="stat-card">Total commas <strong id="totalCommas">0</strong></div>
+    <div class="stat-card">Comma splices <strong id="spliceCount">0</strong></div>
+    <div class="stat-card">Fixes applied <strong id="fixCount">0</strong></div>
+  </div>
+
+  <!-- RESULTS / SPLICES -->
+  <div id="resultsArea"></div>
+
+  <!-- LEARN SECTION -->
+  <section class="card">
+    <h2>📖 Learn: Comma Splice explained</h2>
+    <p>A <strong>comma splice</strong> joins two independent clauses with only a comma. Independent clauses have a subject + verb and can stand alone.</p>
+    <p style="margin-top:0.5rem;"><span class="accent">✖️ Wrong:</span> <em>I like tea, it is refreshing.</em> <br><span class="accent">✔️ Fixed:</span> <em>I like tea. It is refreshing.</em> (period) or <em>I like tea; it is refreshing.</em> (semicolon) or <em>I like tea, for it is refreshing.</em> (conjunction)</p>
+    <h3>15 examples of comma splices</h3>
+    <ul class="example-list">
+      <li>The sun is shining, we should go out.</li>
+      <li>She loves reading, she has many books.</li>
+      <li>He finished his work, he went home.</li>
+      <li>I enjoy hiking, it keeps me fit.</li>
+      <li>We were late, the movie already started.</li>
+      <li>She speaks three languages, she is multilingual.</li>
+      <li>He didn't study, he failed the exam.</li>
+      <li>I called you, you didn't answer.</li>
+      <li>They arrived early, they got good seats.</li>
+      <li>She is kind, everyone likes her.</li>
+      <li>The car broke down, we had to walk.</li>
+      <li>I love music, it makes me happy.</li>
+      <li>He was tired, he went to bed.</li>
+      <li>She wrote a poem, it was beautiful.</li>
+      <li>We missed the bus, we took a taxi.</li>
+    </ul>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="card" id="quizSection">
+    <h2>🧠 Quiz: Identify comma splices</h2>
+    <p>Which sentences contain a comma splice? (click to select)</p>
+    <div id="quizContainer"></div>
+    <button class="btn" id="quizCheckBtn">Check answers</button>
+    <span id="quizResult" style="margin-left:1rem; font-weight:500;"></span>
+  </section>
+
+  <footer class="footer">
+    <p><a href="https://grammarhelper.org/">← grammarhelper.org</a> — Comma Splice Detector</p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ----- CORE DETECTION -----
+    function isIndependentClause(text) {
+      // crude but functional: contains at least one verb-like word and a noun/subject
+      const lower = text.trim().toLowerCase();
+      if (!lower) return false;
+      // must have at least 2 words and contain common verb patterns
+      const words = lower.split(/\s+/);
+      if (words.length < 2) return false;
+      // list of common verbs (auxiliaries, be, have, do, modals, common verbs)
+      const verbIndicators = /\b(am|is|are|was|were|be|been|being|have|has|had|do|does|did|will|would|can|could|shall|should|may|might|must|need|dare|used|go|goes|went|gone|come|came|make|made|take|took|see|saw|know|knew|think|thought|give|gave|find|found|tell|told|become|became|leave|left|feel|felt|put|set|bring|brought|begin|began|keep|kept|hold|held|write|wrote|stand|stood|hear|heard|let|mean|meant|run|ran|pay|paid|sit|sat|speak|spoke|lie|lay|lead|led|read|read|grow|grew|lose|lost|fall|fell|send|sent|build|built|understand|understood|draw|drew|break|broke|spend|spent|cut|cut|rise|rose|drive|drove|buy|bought|wear|wore|choose|chose|seek|sought|throw|threw|catch|caught|teach|taught|fight|fought|think|thought|buy|bought|bring|brought)\b/i;
+      // also require a subject (at least a pronoun or noun)
+      const subjectIndicators = /\b(i|you|he|she|it|we|they|this|that|these|those|someone|somebody|everyone|everybody|nobody|no one|people|men|women|children|man|woman|child|person|student|teacher|doctor|engineer|cat|dog|bird|car|house|book|city|country|world|life|time|year|day|week|month|hand|eye|face|head|heart|mind|way|thing|place|number|part|problem|fact|idea|water|air|food|money|music|art|love|joy|fear|anger|sadness|happiness|beauty|truth|power|energy|light|darkness|color|shape|size|group|team|family|company|government|school|college|university|business|market|system|process|data|information)\b/i;
+      return verbIndicators.test(lower) && subjectIndicators.test(lower);
+    }
+
+    function findCommaSplices(text) {
+      const splices = [];
+      const commaPositions = [];
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] === ',') commaPositions.push(i);
+      }
+      // check each comma
+      for (let pos of commaPositions) {
+        // look left and right (sentence boundaries)
+        const leftStart = findLeftBoundary(text, pos);
+        const leftPart = text.slice(leftStart, pos).trim();
+        // right part: after comma, up to next sentence end
+        const rightEnd = findRightBoundary(text, pos+1);
+        let rightPart = text.slice(pos+1, rightEnd).trim();
+        // remove leading spaces
+        rightPart = rightPart.replace(/^\s+/, '');
+        // check for coordinating conjunction right after comma (for, and, nor, but, or, yet, so)
+        const conjMatch = rightPart.match(/^(for|and|nor|but|or|yet|so)\b/i);
+        if (conjMatch) continue;  // has conjunction, not a splice
+
+        // check if both sides are independent clauses
+        if (isIndependentClause(leftPart) && isIndependentClause(rightPart)) {
+          splices.push({
+            left: leftPart,
+            right: rightPart,
+            fullSplice: leftPart + ', ' + rightPart,
+            start: leftStart,
+            end: rightEnd,
+            commaPos: pos
+          });
+        }
+      }
+      return splices;
+    }
+
+    function findLeftBoundary(text, pos) {
+      let i = pos - 1;
+      while (i >= 0 && text[i] !== '.' && text[i] !== '!' && text[i] !== '?' && text[i] !== '\n') i--;
+      return i+1;
+    }
+    function findRightBoundary(text, pos) {
+      let i = pos;
+      while (i < text.length && text[i] !== '.' && text[i] !== '!' && text[i] !== '?' && text[i] !== '\n') i++;
+      return i+1;
+    }
+
+    // ----- UI -----
+    const inputEl = document.getElementById('inputText');
+    const detectBtn = document.getElementById('detectBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const resultsArea = document.getElementById('resultsArea');
+    const totalCommasSpan = document.getElementById('totalCommas');
+    const spliceCountSpan = document.getElementById('spliceCount');
+    const fixCountSpan = document.getElementById('fixCount');
+    let fixApplied = 0;
+    let currentSplices = [];
+
+    function updateStats(text, splices) {
+      const commaMatches = text.match(/,/g);
+      const totalCommas = commaMatches ? commaMatches.length : 0;
+      totalCommasSpan.textContent = totalCommas;
+      spliceCountSpan.textContent = splices.length;
+      fixCountSpan.textContent = fixApplied;
+    }
+
+    function renderSplices(splices, originalText) {
+      if (!splices.length) {
+        resultsArea.innerHTML = `<div class="card" style="background:#1a3a1a; border-left:4px solid #4caf50;"><p>✅ No comma splices detected! Great writing.</p></div>`;
+        return;
+      }
+      let html = `<div class="card"><h3>⚠️ Found ${splices.length} comma splice(s)</h3>`;
+      splices.forEach((s, idx) => {
+        html += `<div class="splice-item">
+          <p><strong>#${idx+1}</strong> <span class="accent">"${s.left}</span><span style="background:#ff704344; padding:0 4px;">,</span><span class="accent"> ${s.right}"</span></p>
+          <p style="color:#aaa;">❌ Two independent clauses joined only by a comma.</p>
+          <div class="fix-options">
+            <button class="fix-btn" data-idx="${idx}" data-fix="period">➕ Period</button>
+            <button class="fix-btn" data-idx="${idx}" data-fix="semicolon">➕ Semicolon</button>
+            <button class="fix-btn" data-idx="${idx}" data-fix="conjunction">➕ Add conjunction</button>
+            <button class="fix-btn" data-idx="${idx}" data-fix="dependent">➕ Make dependent</button>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+      resultsArea.innerHTML = html;
+
+      // attach fix events
+      document.querySelectorAll('.fix-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const idx = parseInt(this.dataset.idx);
+          const fixType = this.dataset.fix;
+          applyFix(idx, fixType);
+        });
+      });
+    }
+
+    function applyFix(idx, type) {
+      const splice = currentSplices[idx];
+      if (!splice) return;
+      let replacement = '';
+      const left = splice.left;
+      const right = splice.right;
+      switch(type) {
+        case 'period': replacement = left + '. ' + right; break;
+        case 'semicolon': replacement = left + '; ' + right; break;
+        case 'conjunction': 
+          const conjunctions = ['for', 'and', 'nor', 'but', 'or', 'yet', 'so'];
+          const randomConj = conjunctions[Math.floor(Math.random() * conjunctions.length)];
+          replacement = left + ', ' + randomConj + ' ' + right; 
+          break;
+        case 'dependent': 
+          // make the first clause dependent (add subordinator)
+          const subordinators = ['although', 'because', 'since', 'while', 'when', 'if', 'unless', 'until', 'after', 'before'];
+          const sub = subordinators[Math.floor(Math.random() * subordinators.length)];
+          replacement = sub + ' ' + left.charAt(0).toLowerCase() + left.slice(1) + ', ' + right;
+          break;
+        default: return;
+      }
+      // replace in text
+      let text = inputEl.value;
+      const before = text.slice(0, splice.start);
+      const after = text.slice(splice.end);
+      const newText = before + replacement + after;
+      inputEl.value = newText;
+      fixApplied++;
+      fixCountSpan.textContent = fixApplied;
+      // re-run detection
+      runDetection();
+    }
+
+    function runDetection() {
+      const text = inputEl.value;
+      const splices = findCommaSplices(text);
+      currentSplices = splices;
+      updateStats(text, splices);
+      renderSplices(splices, text);
+    }
+
+    detectBtn.addEventListener('click', runDetection);
+    clearBtn.addEventListener('click', function() {
+      inputEl.value = '';
+      resultsArea.innerHTML = '';
+      totalCommasSpan.textContent = '0';
+      spliceCountSpan.textContent = '0';
+      fixCountSpan.textContent = '0';
+      fixApplied = 0;
+      currentSplices = [];
+    });
+
+    // initial run
+    window.addEventListener('load', function() {
+      runDetection();
+      buildQuiz();
+    });
+
+    // ----- QUIZ -----
+    const quizSentences = [
+      { text: "She went to the store, she bought milk.", splice: true },
+      { text: "I love grammar, it's fun.", splice: true },
+      { text: "He ran fast, he won the race.", splice: true },
+      { text: "We stayed home because it rained.", splice: false },
+      { text: "She is kind, everyone likes her.", splice: true },
+      { text: "He finished his work and went home.", splice: false },
+      { text: "I called you, you didn't answer.", splice: true },
+      { text: "The sun is shining, so we should go out.", splice: false },
+      { text: "I enjoy hiking; it keeps me fit.", splice: false },
+      { text: "He didn't study, he failed the exam.", splice: true }
+    ];
+
+    function buildQuiz() {
+      const container = document.getElementById('quizContainer');
+      let html = '';
+      quizSentences.forEach((item, i) => {
+        html += `<div class="quiz-question" data-index="${i}">
+          <p><strong>${i+1}.</strong> <em>"${item.text}"</em></p>
+          <div>
+            <button class="quiz-btn" data-q="${i}" data-answer="splice">Comma splice</button>
+            <button class="quiz-btn" data-q="${i}" data-answer="no-splice">No splice</button>
+          </div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      // add click toggles
+      document.querySelectorAll('.quiz-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const parent = this.closest('.quiz-question');
+          const btns = parent.querySelectorAll('.quiz-btn');
+          btns.forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+    }
+
+    document.getElementById('quizCheckBtn').addEventListener('click', function() {
+      let correct = 0;
+      const questions = document.querySelectorAll('.quiz-question');
+      questions.forEach((q, idx) => {
+        const selected = q.querySelector('.quiz-btn.selected');
+        const btns = q.querySelectorAll('.quiz-btn');
+        btns.forEach(b => { b.classList.remove('correct','wrong'); });
+        if (!selected) return;
+        const answer = selected.dataset.answer;
+        const isSplice = quizSentences[idx].splice;
+        const isCorrect = (answer === 'splice' && isSplice) || (answer === 'no-splice' && !isSplice);
+        if (isCorrect) {
+          selected.classList.add('correct');
+          correct++;
+        } else {
+          selected.classList.add('wrong');
+          // highlight correct answer
+          btns.forEach(b => {
+            if ((b.dataset.answer === 'splice' && isSplice) || (b.dataset.answer === 'no-splice' && !isSplice)) {
+              b.classList.add('correct');
+            }
+          });
+        }
+      });
+      document.getElementById('quizResult').textContent = `${correct} / 10 correct`;
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject‑Verb Agreement Checker — Fix Agreement Errors</title>
+  <meta name="description" content="Interactive tool to detect and fix subject‑verb agreement errors. Rules, practice, and score tracking. GrammarHelper.org">
+  <link rel="canonical" href="https://grammarhelper.org/tools/subject-verb-agreement">
+  <meta name="theme-color" content="#0a0a0a">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .logo-area {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .logo {
+      font-weight: 600;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+    .logo a {
+      color: #ff7043;
+      text-decoration: none;
+    }
+    .logo a:hover {
+      text-decoration: underline;
+    }
+    .subhead {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.95rem;
+    }
+    nav a:hover {
+      color: #ff7043;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin: 0.5rem 0 0.25rem;
+      background: linear-gradient(135deg, #f5f5f5 0%, #ff7043 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      color: #b0b0b0;
+      margin-bottom: 2rem;
+    }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 800px) {
+      .tool-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+    .card {
+      background: #141414;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 14px;
+      padding: 1rem;
+      color: #e0e0e0;
+      font-size: 1rem;
+      resize: vertical;
+      margin-bottom: 1rem;
+    }
+    textarea:focus {
+      outline: 2px solid #ff7043;
+      border-color: transparent;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 0.5rem 0 1rem;
+    }
+    .btn {
+      background: #2a2a2a;
+      border: none;
+      color: #e0e0e0;
+      padding: 0.6rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+      border: 1px solid #3a3a3a;
+    }
+    .btn-primary {
+      background: #ff7043;
+      color: #0a0a0a;
+      border-color: #ff7043;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background: #ff8a65;
+      border-color: #ff8a65;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #ff7043;
+      color: #ff7043;
+    }
+    .btn-outline:hover {
+      background: #ff704322;
+    }
+    .result-area {
+      background: #0d0d0d;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      min-height: 120px;
+      border-left: 4px solid #ff7043;
+      margin-top: 1rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .error-highlight {
+      background: #ff704333;
+      color: #ffaa88;
+      border-bottom: 2px solid #ff7043;
+      padding: 0.1rem 0.2rem;
+      border-radius: 4px;
+    }
+    .correction-suggestion {
+      background: #1e2a1e;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin: 0.3rem 0;
+      color: #b8e0b8;
+      border: 1px solid #4caf50;
+    }
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 0.5rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    .stat-badge {
+      background: #1e1e1e;
+      padding: 0.2rem 1rem;
+      border-radius: 20px;
+      border: 1px solid #333;
+    }
+    .rules-panel {
+      margin: 2rem 0;
+    }
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .rule-item {
+      background: #141414;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      border-left: 4px solid #ff7043;
+    }
+    .rule-item strong {
+      color: #ffaa88;
+    }
+    .rule-item small {
+      display: block;
+      color: #aaa;
+      margin-top: 0.3rem;
+    }
+    .practice-area {
+      margin: 2.5rem 0;
+    }
+    .practice-sentence {
+      background: #141414;
+      border-radius: 16px;
+      padding: 0.8rem 1.2rem;
+      margin: 0.5rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid #2a2a2a;
+    }
+    .practice-sentence span {
+      flex: 1;
+    }
+    .practice-sentence .btn {
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+    }
+    .score-box {
+      background: #1c1c1c;
+      border-radius: 40px;
+      padding: 0.3rem 1.2rem;
+      border: 1px solid #ff7043;
+      font-weight: 600;
+    }
+    .faq-section {
+      margin: 3rem 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .faq-item {
+      background: #111;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #2a2a2a;
+    }
+    .faq-item h4 {
+      color: #ff7043;
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #2a2a2a;
+      text-align: center;
+      color: #888;
+    }
+    footer a {
+      color: #ff7043;
+      text-decoration: none;
+    }
+    .breadcrumb {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #999;
+      margin-bottom: 0.5rem;
+    }
+    .breadcrumb li+li::before {
+      content: "›";
+      margin-right: 0.5rem;
+      color: #666;
+    }
+    .breadcrumb a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: #ff7043; }
+    .hidden { display: none; }
+  </style>
+
+    <meta property="og:title" content="Subject‑Verb Agreement Checker — Fix Agreement Errors">
+    <meta property="og:description" content="Interactive tool to detect and fix subject‑verb agreement errors. Rules, practice, and score tracking. GrammarHelper.org">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://grammarhelper.org/tools/subject-verb-agreement">
+</head>
+<body>
+<div class="container">
+  <!-- BreadcrumbList (JSON-LD + visible) -->
+  <nav aria-label="Breadcrumb">
+    <ul class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="https://grammarhelper.org/" itemprop="item"><span itemprop="name">GrammarHelper</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Subject‑Verb Agreement Checker</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </nav>
+
+  <header>
+    <div class="logo-area">
+      <span class="logo"><a href="https://grammarhelper.org/">GrammarHelper</a></span>
+      <span class="subhead">subject‑verb agreement</span>
+    </div>
+    <nav>
+      <a href="#rules">Rules</a>
+      <a href="#practice">Practice</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <h1>Subject‑Verb Agreement Checker</h1>
+  <div class="subtitle">Paste text below. Errors flagged in <span style="color:#ff7043;">orange</span>. Corrections suggested.</div>
+
+  <!-- Main interactive tool -->
+  <div class="tool-grid">
+    <div class="card">
+      <label for="inputText" style="font-weight:500; display:block; margin-bottom:0.3rem;">📝 Your text</label>
+      <textarea id="inputText" placeholder="Example: The list of items are on the table. Everyone have their own opinion.">The list of items are on the table. Everyone have their own opinion. The dog and the cat runs fast. Neither the teacher nor the students is happy.</textarea>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="checkBtn">🔍 Check agreement</button>
+        <button class="btn btn-outline" id="clearBtn">Clear</button>
+      </div>
+      <div class="stats">
+        <span class="stat-badge" id="sentenceCount">Sentences: 0</span>
+        <span class="stat-badge" id="errorCount">Errors: 0</span>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:500;">✅ Results & corrections</span>
+        <span style="font-size:0.8rem; color:#aaa;">click sentence to see fix</span>
+      </div>
+      <div id="resultDisplay" class="result-area">Paste text and click "Check agreement"</div>
+      <div id="correctionHint" style="margin-top:0.5rem; font-size:0.9rem; color:#b0b0b0;"></div>
+    </div>
+  </div>
+
+  <!-- Rules panel (12+ rules) -->
+  <section id="rules" class="rules-panel">
+    <h2 style="margin-bottom:0.5rem;">📚 12+ Agreement Rules</h2>
+    <div class="rules-grid">
+      <div class="rule-item"><strong>1. Singular + singular verb</strong><br>The cat runs. <small>Add ‑s to verb</small></div>
+      <div class="rule-item"><strong>2. Plural + plural verb</strong><br>The cats run. <small>no ‑s</small></div>
+      <div class="rule-item"><strong>3. Compound subjects (and)</strong><br>Tom and Jerry are friends. <small>plural</small></div>
+      <div class="rule-item"><strong>4. Or / Nor (closest subject)</strong><br>Neither the coach nor the players are ready.</div>
+      <div class="rule-item"><strong>5. Intervening phrases</strong><br>The box of chocolates is full. <small>ignore "of chocolates"</small></div>
+      <div class="rule-item"><strong>6. Indefinite pronouns</strong><br>Everyone is here. / Nobody knows. <small>always singular</small></div>
+      <div class="rule-item"><strong>7. Collective nouns</strong><br>The team is winning. (AmE) <small>singular</small></div>
+      <div class="rule-item"><strong>8. Each / Every</strong><br>Each student has a book. <small>singular</small></div>
+      <div class="rule-item"><strong>9. Titles / names</strong><br>The United States is large. <small>singular</small></div>
+      <div class="rule-item"><strong>10. There is / are</strong><br>There are many reasons. <small>match noun after verb</small></div>
+      <div class="rule-item"><strong>11. Relative clauses</strong><br>She is one of those who are talented. <small>verb agrees with antecedent</small></div>
+      <div class="rule-item"><strong>12. Fractions / percentages</strong><br>Half of the cake is gone. Half of the cookies are gone.</div>
+    </div>
+  </section>
+
+  <!-- Practice mode: 15 sentences -->
+  <section id="practice" class="practice-area">
+    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:1rem; justify-content:space-between;">
+      <h2>✏️ Practice mode — find errors</h2>
+      <div><span class="score-box" id="practiceScore">Score: 0 / 15</span></div>
+    </div>
+    <div id="practiceList"></div>
+  </section>
+
+  <!-- FAQ (5 questions) -->
+  <section id="faq">
+    <h2>❓ FAQs about subject‑verb agreement</h2>
+    <div class="faq-section" id="faqContainer"></div>
+  </section>
+
+  <footer>
+    <p>© GrammarHelper — <a href="https://grammarhelper.org/">grammarhelper.org</a></p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ---------- rule‑based pattern matching (client‑side) ----------
+    // Very robust but simplified: detect common patterns
+    function checkAgreementErrors(text) {
+      const errors = [];
+      const sentences = text.match(/[^.!?]+[.!?]*/g) || [text];
+      const sentenceObjects = [];
+
+      sentences.forEach((raw) => {
+        const s = raw.trim();
+        if (!s) return;
+        let error = null;
+        let correction = null;
+
+        // 1) indefinite pronouns (everyone, nobody, each, somebody, anyone, everything)
+        const indefPattern = /\b(everyone|everybody|someone|somebody|anyone|anybody|nobody|no one|each|either|neither|everything|nothing)\b/i;
+        const indefMatch = s.match(indefPattern);
+        if (indefMatch) {
+          // check verb after it (simple heuristic: look for have/has, do/does, is/are, was/were)
+          const verbAfter = s.match(/\b(have|do|are|were)\b/i);
+          if (verbAfter && ['have','do','are','were'].includes(verbAfter[1].toLowerCase())) {
+            const fixMap = { 'have':'has', 'do':'does', 'are':'is', 'were':'was' };
+            const suggestion = fixMap[verbAfter[1].toLowerCase()] || verbAfter[1];
+            error = `Indefinite pronoun "${indefMatch[1]}" should take singular verb.`;
+            correction = s.replace(/\b(have|do|are|were)\b/i, suggestion);
+          }
+        }
+
+        // 2) intervening phrases: "N of N" – verb agrees with first noun
+        const ofPattern = /\b(\w+)\s+of\s+(the\s+)?(\w+)\s+(is|are|was|were|has|have)\b/i;
+        const ofMatch = s.match(ofPattern);
+        if (ofMatch && !error) {
+          const firstNoun = ofMatch[1].toLowerCase();
+          const verb = ofMatch[4].toLowerCase();
+          const pluralNouns = ['list','group','bunch','number','variety','majority','crowd','team','flock','set','series'];
+          const singularNouns = ['member','part','half','rest','one','each'];
+          let isPlural = pluralNouns.includes(firstNoun);
+          let isSingular = singularNouns.includes(firstNoun) || !firstNoun.endsWith('s');
+          if (firstNoun.endsWith('s') && !singularNouns.includes(firstNoun)) isPlural = true;
+          // heuristic: if first noun ends with s -> likely plural
+          if (firstNoun.endsWith('s') && !singularNouns.includes(firstNoun)) isPlural = true;
+          if (isPlural && ['is','was','has'].includes(verb)) {
+            const fix = { 'is':'are', 'was':'were', 'has':'have' }[verb] || verb;
+            correction = s.replace(/\b(is|was|has)\b/i, fix);
+            error = `Intervening phrase: verb should agree with "${ofMatch[1]}" (plural).`;
+          } else if (!isPlural && ['are','were','have'].includes(verb)) {
+            const fix = { 'are':'is', 'were':'was', 'have':'has' }[verb] || verb;
+            correction = s.replace(/\b(are|were|have)\b/i, fix);
+            error = `Intervening phrase: verb should agree with "${ofMatch[1]}" (singular).`;
+          }
+        }
+
+        // 3) compound subject with "and" (plural verb) but verb singular
+        const andPattern = /\b\w+\s+and\s+\w+\s+(is|was|has)\b/i;
+        const andMatch = s.match(andPattern);
+        if (andMatch && !error) {
+          const verb = andMatch[1].toLowerCase();
+          const fix = { 'is':'are', 'was':'were', 'has':'have' }[verb] || verb;
+          correction = s.replace(/\b(is|was|has)\b/i, fix);
+          error = `Compound subject with "and" needs plural verb.`;
+        }
+
+        // 4) or/nor: verb agrees with closest subject (simple)
+        const orPattern = /\b(neither|either)\s+(\w+)\s+(or|nor)\s+(\w+)\s+(is|are|was|were|has|have)\b/i;
+        const orMatch = s.match(orPattern);
+        if (orMatch && !error) {
+          const lastSubject = orMatch[4].toLowerCase();
+          const verb = orMatch[5].toLowerCase();
+          const lastPlural = lastSubject.endsWith('s') || ['children','people','men','women'].includes(lastSubject);
+          if (lastPlural && ['is','was','has'].includes(verb)) {
+            const fix = { 'is':'are', 'was':'were', 'has':'have' }[verb] || verb;
+            correction = s.replace(/\b(is|was|has)\b/i, fix);
+            error = `Verb should agree with closest subject "${orMatch[4]}".`;
+          } else if (!lastPlural && ['are','were','have'].includes(verb)) {
+            const fix = { 'are':'is', 'were':'was', 'have':'has' }[verb] || verb;
+            correction = s.replace(/\b(are|were|have)\b/i, fix);
+            error = `Verb should agree with closest subject "${orMatch[4]}".`;
+          }
+        }
+
+        // 5) collective nouns (team, family, group, committee) -> singular verb
+        const collectivePattern = /\b(team|family|group|committee|audience|class|crew|staff)\s+(are|were|have)\b/i;
+        const collMatch = s.match(collectivePattern);
+        if (collMatch && !error) {
+          const verb = collMatch[2].toLowerCase();
+          const fix = { 'are':'is', 'were':'was', 'have':'has' }[verb] || verb;
+          correction = s.replace(/\b(are|were|have)\b/i, fix);
+          error = `Collective noun "${collMatch[1]}" usually takes singular verb.`;
+        }
+
+        // fallback: simple singular/plural detection (common)
+        if (!error) {
+          const subjVerbPattern = /\b(The\s+\w+s)\s+(is|was|has)\b/i;
+          const sv = s.match(subjVerbPattern);
+          if (sv && sv[1].endsWith('s')) {
+            const verb = sv[2].toLowerCase();
+            const fix = { 'is':'are', 'was':'were', 'has':'have' }[verb] || verb;
+            correction = s.replace(/\b(is|was|has)\b/i, fix);
+            error = `Plural subject "${sv[1]}" needs plural verb.`;
+          }
+        }
+
+        sentenceObjects.push({ text: s, error, correction });
+        if (error) errors.push({ sentence: s, correction });
+      });
+      return { sentenceObjects, errors };
+    }
+
+    // ---------- UI ----------
+    const inputText = document.getElementById('inputText');
+    const checkBtn = document.getElementById('checkBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const correctionHint = document.getElementById('correctionHint');
+    const sentenceCountSpan = document.getElementById('sentenceCount');
+    const errorCountSpan = document.getElementById('errorCount');
+
+    function runCheck() {
+      const text = inputText.value;
+      const { sentenceObjects, errors } = checkAgreementErrors(text);
+      let html = '';
+      let errCount = 0;
+      sentenceObjects.forEach((obj) => {
+        if (obj.error) {
+          html += `<span class="error-highlight">${obj.text}</span> `;
+          errCount++;
+        } else {
+          html += `<span>${obj.text}</span> `;
+        }
+      });
+      resultDisplay.innerHTML = html || 'No text to analyze.';
+      sentenceCountSpan.textContent = `Sentences: ${sentenceObjects.length}`;
+      errorCountSpan.textContent = `Errors: ${errCount}`;
+      if (errors.length > 0) {
+        let hint = '✏️ ' + errors.map(e => `“${e.sentence}” → ${e.correction}`).join(' | ');
+        correctionHint.innerHTML = hint;
+      } else {
+        correctionHint.textContent = '✅ No agreement errors detected (or use more complex patterns).';
+      }
+    }
+
+    checkBtn.addEventListener('click', runCheck);
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      resultDisplay.textContent = 'Text cleared.';
+      correctionHint.textContent = '';
+      sentenceCountSpan.textContent = 'Sentences: 0';
+      errorCountSpan.textContent = 'Errors: 0';
+    });
+
+    // ---------- Practice mode (15 sentences) ----------
+    const practiceSentences = [
+      { text: "The list of items are on the table.", fix: "The list of items is on the table." },
+      { text: "Everyone have their own opinion.", fix: "Everyone has their own opinion." },
+      { text: "The dog and the cat runs fast.", fix: "The dog and the cat run fast." },
+      { text: "Neither the teacher nor the students is happy.", fix: "Neither the teacher nor the students are happy." },
+      { text: "The team are playing well.", fix: "The team is playing well." },
+      { text: "Each of the players have a medal.", fix: "Each of the players has a medal." },
+      { text: "The group of friends were excited.", fix: "The group of friends was excited." },
+      { text: "Either the manager or the employees is wrong.", fix: "Either the manager or the employees are wrong." },
+      { text: "The box of chocolates are delicious.", fix: "The box of chocolates is delicious." },
+      { text: "Nobody know the answer.", fix: "Nobody knows the answer." },
+      { text: "The committee have reached a decision.", fix: "The committee has reached a decision." },
+      { text: "There is many reasons to celebrate.", fix: "There are many reasons to celebrate." },
+      { text: "She is one of those who loves cats.", fix: "She is one of those who love cats." },
+      { text: "The news are shocking.", fix: "The news is shocking." },
+      { text: "Every boy and girl are welcome.", fix: "Every boy and girl is welcome." }
+    ];
+    const practiceList = document.getElementById('practiceList');
+    const scoreSpan = document.getElementById('practiceScore');
+    let score = 0;
+    let found = new Array(15).fill(false);
+
+    function renderPractice() {
+      practiceList.innerHTML = '';
+      practiceSentences.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'practice-sentence';
+        const span = document.createElement('span');
+        span.textContent = `${idx+1}. ${item.text}`;
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline';
+        btn.textContent = found[idx] ? '✔️ fixed' : 'Find error';
+        btn.disabled = found[idx];
+        btn.addEventListener('click', () => {
+          if (!found[idx]) {
+            found[idx] = true;
+            score++;
+            scoreSpan.textContent = `Score: ${score} / 15`;
+            btn.textContent = '✔️ fixed';
+            btn.disabled = true;
+            // show correction
+            const hint = document.createElement('span');
+            hint.style.color = '#8bc34a';
+            hint.textContent = ` → ${item.fix}`;
+            div.appendChild(hint);
+          }
+        });
+        div.appendChild(span);
+        div.appendChild(btn);
+        practiceList.appendChild(div);
+      });
+    }
+    renderPractice();
+
+    // ---------- FAQ (5) ----------
+    const faqs = [
+      { q: "What is subject‑verb agreement?", a: "Subjects and verbs must agree in number: singular subjects take singular verbs, plural subjects take plural verbs." },
+      { q: "Do collective nouns take singular or plural?", a: "In American English, collective nouns (team, family) usually take singular verbs." },
+      { q: "How do I handle compound subjects with 'and'?", a: "Subjects joined by 'and' generally take plural verbs (e.g., 'Tom and Jerry are')." },
+      { q: "What about indefinite pronouns like 'everyone'?", a: "Indefinite pronouns (everyone, nobody, each) are singular and take singular verbs." },
+      { q: "What are intervening phrases?", a: "Phrases like 'of the students' do not change the number of the subject: 'The box of chocolates is...'" }
+    ];
+    const faqContainer = document.getElementById('faqContainer');
+    faqs.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'faq-item';
+      div.innerHTML = `<h4>❓ ${item.q}</h4><p>${item.a}</p>`;
+      faqContainer.appendChild(div);
+    });
+
+    // ---------- JSON-LD ----------
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Subject‑Verb Agreement Checker",
+          "url": "https://grammarhelper.org/subject-verb-agreement",
+          "description": "Interactive tool to detect and fix subject‑verb agreement errors with rules and practice.",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "All"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": faqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+          }))
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "GrammarHelper", "item": "https://grammarhelper.org/" },
+            { "@type": "ListItem", "position": 2, "name": "Subject‑Verb Agreement Checker", "item": "https://grammarhelper.org/subject-verb-agreement" }
+          ]
+        }
+      ]
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(jsonLd, null, 2);
+    document.head.appendChild(script);
+  })();
+</script>
+</body>
+</html>

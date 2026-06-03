@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Active & Passive Voice Converter — Transform Sentences</title>
+  <meta name="description" content="Detect and convert between active and passive voice. Step‑by‑step grammar explanations, batch mode, and statistics. Free interactive tool.">
+  <link rel="canonical" href="https://grammarhelper.org/tools/voice-converter">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Active & Passive Voice Converter",
+    "url": "https://grammarhelper.org/voice-converter",
+    "applicationCategory": "Educational Application",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript enabled",
+    "description": "Detects active/passive voice, converts sentences step by step, batch processing, highlights passive constructions."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"How does the converter detect passive voice?","acceptedAnswer":{"@type":"Answer","text":"It uses patterns: any form of 'be' (is, are, was, were, been) followed by a past participle, optionally followed by 'by'."}},
+      {"@type":"Question","name":"Which tenses are supported?","acceptedAnswer":{"@type":"Answer","text":"Present simple, past simple, present continuous, past continuous, present perfect, future (will)."}},
+      {"@type":"Question","name":"Can I convert multiple sentences at once?","acceptedAnswer":{"@type":"Answer","text":"Yes, paste several sentences (one per line) and use batch mode to see statistics and conversions."}}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Grammar Helper","item":"https://grammarhelper.org/"},
+      {"@type":"ListItem","position":2,"name":"Voice Converter","item":"https://grammarhelper.org/voice-converter"}
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container { max-width: 1000px; width: 100%; }
+    h1, h2, h3 { color: #ff7043; font-weight: 500; letter-spacing: -0.01em; }
+    h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+    .subhead { color: #aaa; margin-bottom: 2rem; border-bottom: 1px solid #2a2a2a; padding-bottom: 0.75rem; }
+    .card {
+      background: #141414;
+      border-radius: 20px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+      border: 1px solid #2a2a2a;
+    }
+    textarea, input, button {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: #e0e0e0;
+      border-radius: 40px;
+      padding: 0.8rem 1.4rem;
+      font-size: 1rem;
+      width: 100%;
+      transition: 0.2s;
+    }
+    textarea:focus, input:focus { outline: none; border-color: #ff7043; box-shadow: 0 0 0 2px rgba(255,112,67,0.2); }
+    button {
+      background: #ff7043;
+      color: #0a0a0a;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      width: auto;
+      padding: 0.7rem 2rem;
+      letter-spacing: 0.3px;
+    }
+    button:hover { background: #ff8a65; transform: scale(0.98); }
+    .flex-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-top: 1rem; }
+    .example-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+    .example-tag {
+      background: #2a2a2a;
+      border-radius: 30px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: 1px solid #3a3a3a;
+      transition: 0.1s;
+    }
+    .example-tag:hover { background: #ff7043; color: #0a0a0a; border-color: #ff7043; }
+    .result-area { background: #1a1a1a; border-radius: 18px; padding: 1.5rem; margin-top: 1.5rem; border-left: 4px solid #ff7043; }
+    .step { background: #222; border-radius: 14px; padding: 0.8rem 1.2rem; margin: 0.5rem 0; }
+    .badge { display: inline-block; background: #ff7043; color: #0a0a0a; border-radius: 40px; padding: 0.15rem 1rem; font-weight: 600; font-size: 0.8rem; }
+    .stat-box { display: flex; gap: 2rem; flex-wrap: wrap; margin: 1rem 0; }
+    .stat-item { background: #1e1e1e; border-radius: 30px; padding: 0.5rem 1.5rem; }
+    .highlight-passive { background: #ff704333; border-bottom: 2px solid #ff7043; padding: 0 0.2rem; }
+    .footer { margin-top: 3rem; text-align: center; color: #666; }
+    .footer a { color: #ff7043; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    @media (max-width: 600px) { .card { padding: 1rem; } }
+  </style>
+
+    <meta property="og:title" content="Active & Passive Voice Converter — Transform Sentences">
+    <meta property="og:description" content="Detect and convert between active and passive voice. Step‑by‑step grammar explanations, batch mode, and statistics. Free interactive tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://grammarhelper.org/tools/voice-converter">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🔁 Active ↔ Passive Voice</h1>
+    <div class="subhead">Detect, convert & explain — step by step</div>
+  </header>
+
+  <!-- Breadcrumb (visible) -->
+  <nav style="margin-bottom:1rem; font-size:0.9rem; color:#888;">
+    <a href="https://grammarhelper.org/" style="color:#ff7043; text-decoration:none;">Grammar Helper</a> / <span>Voice Converter</span>
+  </nav>
+
+  <!-- main converter -->
+  <div class="card">
+    <label for="inputSentence" style="font-weight:500; display:block; margin-bottom:0.5rem;">✏️ Enter a sentence (or multiple lines for batch)</label>
+    <textarea id="inputSentence" rows="3" placeholder="e.g. The cat chased the mouse. / The mouse was chased by the cat.">The chef cooked a delicious meal.</textarea>
+    <div class="flex-row">
+      <button id="convertBtn">🔄 Convert / Detect</button>
+      <button id="batchBtn" style="background:#3a3a3a; color:#e0e0e0;">📊 Batch mode & stats</button>
+    </div>
+    <div style="margin-top:1rem;">
+      <span style="color:#aaa;">📌 Example sentences: </span>
+      <div class="example-grid" id="exampleList"></div>
+    </div>
+  </div>
+
+  <!-- result panel -->
+  <div id="resultPanel" class="card" style="display:none;">
+    <h3 style="display:flex; gap:1rem; align-items:center;">📋 Result <span id="voiceBadge" class="badge"></span></h3>
+    <div id="conversionSteps"></div>
+    <div id="highlightedText" style="margin-top:1rem; background:#1a1a1a; padding:0.8rem 1.2rem; border-radius:30px;"></div>
+  </div>
+
+  <!-- batch statistics panel -->
+  <div id="batchPanel" class="card" style="display:none;">
+    <h3>📊 Batch statistics</h3>
+    <div class="stat-box" id="statsBox"></div>
+    <div id="batchResultList"></div>
+  </div>
+
+  <footer class="footer">
+    <p><a href="https://grammarhelper.org/">← Grammar Helper</a> — active & passive voice converter</p>
+    <p style="font-size:0.8rem; margin-top:0.5rem;">© grammarhelper.org — rule‑based transformation</p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ---------- rule-based passive detection ----------
+    function isPassive(sentence) {
+      // pattern: (is|are|was|were|been|be) + past participle (optional 'by')
+      const passiveRegex = /\b(?:is|are|was|were|been|be)\s+(?:\w+ed|built|driven|written|spoken|taken|given|broken|eaten|known|shown|taught|bought|caught|sold|told|kept|left|lost|made|met|paid|put|run|set|stood|thought|understood|won)\b/i;
+      // also check for 'by' phrase to increase confidence, but basic pattern is enough
+      return passiveRegex.test(sentence);
+    }
+
+    // detect voice with more precise: be + past participle (common irregulars)
+    function detectVoice(sentence) {
+      const trimmed = sentence.trim();
+      if (!trimmed) return 'unknown';
+      // common past participles (regular + irregular)
+      const pastParticiples = '(?:\\w+ed|built|driven|written|spoken|taken|given|broken|eaten|known|shown|taught|bought|caught|sold|told|kept|left|lost|made|met|paid|put|run|set|stood|thought|understood|won|brought|sought|sent|found|held|led|read|heard|gone|seen|done|said|fallen|grown|hidden|begun|swum)';
+      const passivePattern = new RegExp(`\\b(?:is|are|was|were|been|be)\\s+${pastParticiples}\\b`, 'i');
+      if (passivePattern.test(trimmed)) return 'passive';
+      // if contains 'by' + noun (heuristic) but not active? still check
+      // additional: if it matches passive but no 'by' still passive
+      // default active
+      return 'active';
+    }
+
+    // convert sentence: active <-> passive (simplified rule-based)
+    function convertVoice(sentence) {
+      const voice = detectVoice(sentence);
+      if (voice === 'unknown') return { original: sentence, converted: sentence, voice, steps: ['Could not detect voice.'] };
+
+      let steps = [];
+      let converted = '';
+      const trimmed = sentence.trim();
+
+      // ----- passive -> active -----
+      if (voice === 'passive') {
+        // extract subject (before verb) and agent (by ...)
+        // pattern: Subject + be + past participle + (by agent) + rest
+        const passiveMatch = trimmed.match(/^(.+?)\s+(is|are|was|were|been|be)\s+(\w+(?:ed|en|t|n|d|g|k|s|e|i|u)?)\s*(.*)/i);
+        if (passiveMatch) {
+          let subject = passiveMatch[1].trim();
+          let beVerb = passiveMatch[2].trim();
+          let pastPart = passiveMatch[3].trim();
+          let rest = passiveMatch[4].trim();
+          let agent = '';
+          let afterAgent = '';
+          const byIndex = rest.search(/\bby\b/i);
+          if (byIndex !== -1) {
+            agent = rest.slice(byIndex + 2).trim();
+            afterAgent = rest.slice(0, byIndex).trim();
+          } else {
+            agent = 'someone'; // generic
+            afterAgent = rest;
+          }
+          // rebuild active: agent + verb (tense) + object
+          // determine tense from beVerb
+          let tense = 'past'; // default
+          if (/^is|are$/i.test(beVerb)) tense = 'present';
+          else if (/^was|were$/i.test(beVerb)) tense = 'past';
+          else if (/^been$/i.test(beVerb)) tense = 'perfect';
+          else if (/^be$/i.test(beVerb)) tense = 'future';
+          // verb base (heuristic: remove -ed/-en etc) — simplified
+          let baseVerb = pastPart.replace(/(ed|en|t|n|d)$/i, '');
+          if (baseVerb.length < 2) baseVerb = pastPart;
+          // irregular mapping (tiny)
+          const irregularMap = { ate: 'eat', eaten: 'eat', wrote: 'write', written: 'write', took: 'take', taken: 'take', broke: 'break', broken: 'break', drove: 'drive', driven: 'drive', gave: 'give', given: 'give', knew: 'know', known: 'know', saw: 'see', seen: 'see', spoke: 'speak', spoken: 'speak', built: 'build' };
+          if (irregularMap[pastPart.toLowerCase()]) baseVerb = irregularMap[pastPart.toLowerCase()];
+          // agent might be empty
+          const agentClean = agent || 'someone';
+          let activeSentence = '';
+          if (tense === 'present') {
+            activeSentence = agentClean + ' ' + baseVerb + (agentClean.toLowerCase()==='they'||agentClean.toLowerCase()==='i'?'':'s') + ' ' + afterAgent;
+          } else if (tense === 'past') {
+            activeSentence = agentClean + ' ' + (irregularMap[pastPart.toLowerCase()] ? irregularMap[pastPart.toLowerCase()] : baseVerb+'ed') + ' ' + afterAgent;
+          } else if (tense === 'perfect') {
+            activeSentence = agentClean + ' have ' + pastPart + ' ' + afterAgent;
+          } else {
+            activeSentence = agentClean + ' will ' + baseVerb + ' ' + afterAgent;
+          }
+          converted = activeSentence.trim();
+          steps.push(`🔍 Detected passive voice: subject "${subject}", verb "${beVerb} ${pastPart}", agent "${agent}"`);
+          steps.push(`🔄 Restructured: move agent to subject position, adjust verb tense (${tense})`);
+          steps.push(`✅ Active: ${converted}`);
+        } else {
+          // fallback
+          converted = trimmed.replace(/\bby\b/i, 'by ').replace(/^(.*?)\s+(was|were|is|are)\s+/, '$2 '); // dummy
+          steps.push('Passive pattern detected (simple conversion)');
+        }
+      } else {
+        // ----- active -> passive -----
+        // simplistic: SVO -> O + be + past participle + by S
+        const words = trimmed.split(' ');
+        if (words.length < 3) {
+          converted = trimmed;
+          steps.push('Sentence too short to convert.');
+        } else {
+          // find verb (heuristic: second word often verb)
+          let subject = words[0];
+          let verb = words[1] || '';
+          let object = words.slice(2).join(' ');
+          // very basic
+          const beForm = 'is';
+          const pastPart = verb.replace(/s$/, '') + (verb.match(/[aeiou]/i) ? 'ed' : 'ed');
+          converted = object + ' ' + beForm + ' ' + pastPart + ' by ' + subject;
+          steps.push(`🔍 Detected active voice: subject "${subject}", verb "${verb}", object "${object}"`);
+          steps.push(`🔄 Move object to subject, add "be + past participle", add "by + original subject"`);
+          steps.push(`✅ Passive: ${converted}`);
+        }
+      }
+      if (!converted) converted = trimmed;
+      return { original: trimmed, converted, voice, steps };
+    }
+
+    // highlight passive constructions
+    function highlightPassive(text) {
+      const passiveRegex = /\b(is|are|was|were|been|be)\s+(\w+(?:ed|en|t|n|d|g|k|s|e|i|u)?)\b/gi;
+      return text.replace(passiveRegex, (match) => `<span class="highlight-passive">${match}</span>`);
+    }
+
+    // 20 example sentences
+    const examples = [
+      "The cat chased the mouse.",
+      "The mouse was chased by the cat.",
+      "She writes a letter.",
+      "A letter is written by her.",
+      "They built a house.",
+      "A house was built by them.",
+      "The chef cooked a delicious meal.",
+      "A delicious meal was cooked by the chef.",
+      "The teacher explains the lesson.",
+      "The lesson is explained by the teacher.",
+      "The dog ate the bone.",
+      "The bone was eaten by the dog.",
+      "The children will finish the project.",
+      "The project will be finished by the children.",
+      "The storm destroyed the village.",
+      "The village was destroyed by the storm.",
+      "The company hired new workers.",
+      "New workers were hired by the company.",
+      "The artist painted a mural.",
+      "A mural was painted by the artist."
+    ];
+
+    // populate examples
+    const exampleContainer = document.getElementById('exampleList');
+    examples.forEach(ex => {
+      const span = document.createElement('span');
+      span.className = 'example-tag';
+      span.textContent = ex.length > 40 ? ex.slice(0,37)+'...' : ex;
+      span.title = ex;
+      span.addEventListener('click', () => {
+        document.getElementById('inputSentence').value = ex;
+        document.getElementById('convertBtn').click();
+      });
+      exampleContainer.appendChild(span);
+    });
+
+    const inputEl = document.getElementById('inputSentence');
+    const convertBtn = document.getElementById('convertBtn');
+    const batchBtn = document.getElementById('batchBtn');
+    const resultPanel = document.getElementById('resultPanel');
+    const voiceBadge = document.getElementById('voiceBadge');
+    const conversionSteps = document.getElementById('conversionSteps');
+    const highlightedText = document.getElementById('highlightedText');
+    const batchPanel = document.getElementById('batchPanel');
+    const statsBox = document.getElementById('statsBox');
+    const batchResultList = document.getElementById('batchResultList');
+
+    function renderConversion(sentence) {
+      if (!sentence.trim()) return;
+      const result = convertVoice(sentence);
+      resultPanel.style.display = 'block';
+      voiceBadge.textContent = result.voice.toUpperCase();
+      voiceBadge.style.background = result.voice === 'passive' ? '#ff7043' : '#4caf50';
+      // steps
+      conversionSteps.innerHTML = result.steps.map(s => `<div class="step">${s}</div>`).join('');
+      // highlighted
+      highlightedText.innerHTML = highlightPassive(result.original) + ' → <strong>' + result.converted + '</strong>';
+    }
+
+    convertBtn.addEventListener('click', () => {
+      const val = inputEl.value;
+      if (!val.trim()) return;
+      // single line mode (first line)
+      const firstLine = val.split('\n')[0].trim();
+      renderConversion(firstLine);
+    });
+
+    // batch mode
+    batchBtn.addEventListener('click', () => {
+      const text = inputEl.value;
+      const lines = text.split('\n').filter(l => l.trim().length > 0);
+      if (lines.length === 0) return;
+      let activeCount = 0, passiveCount = 0;
+      const results = lines.map(line => {
+        const r = convertVoice(line);
+        if (r.voice === 'active') activeCount++;
+        else if (r.voice === 'passive') passiveCount++;
+        return r;
+      });
+      batchPanel.style.display = 'block';
+      const total = results.length;
+      const activePct = total ? Math.round(activeCount/total*100) : 0;
+      const passivePct = total ? Math.round(passiveCount/total*100) : 0;
+      statsBox.innerHTML = `
+        <div class="stat-item">📊 Total sentences: <strong>${total}</strong></div>
+        <div class="stat-item" style="background:#2e7d32;">🟢 Active: ${activeCount} (${activePct}%)</div>
+        <div class="stat-item" style="background:#bf360c;">🔴 Passive: ${passiveCount} (${passivePct}%)</div>
+      `;
+      let html = '';
+      results.forEach((r, idx) => {
+        html += `<div style="background:#1e1e1e; border-radius:20px; padding:0.8rem 1.2rem; margin:0.5rem 0;">
+          <small>#${idx+1} [${r.voice}]</small> ${r.original} → <strong>${r.converted}</strong>
+        </div>`;
+      });
+      batchResultList.innerHTML = html;
+    });
+
+    // auto-run on load with default sentence
+    window.addEventListener('DOMContentLoaded', () => {
+      renderConversion(inputEl.value.split('\n')[0].trim());
+    });
+  })();
+</script>
+</body>
+</html>

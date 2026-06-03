@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punctuation Rules Guide — Master All Punctuation Marks</title>
+  <meta name="description" content="Interactive punctuation reference: rules, examples, common mistakes, exercises, checker & quiz. Master period, comma, semicolon, colon, apostrophe...">
+  <link rel="canonical" href="https://grammarhelper.org/tools/punctuation-guide">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Punctuation Rules Guide",
+    "url": "https://grammarhelper.org/punctuation-guide",
+    "description": "Interactive punctuation reference and practice tool covering all major punctuation marks.",
+    "applicationCategory": "Educational Application",
+    "offers": [{"@type": "Offer","price": "0","priceCurrency": "USD"}]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"How do I use a semicolon?","acceptedAnswer":{"@type":"Answer","text":"Use a semicolon to link independent clauses or separate items in a complex list."}},
+      {"@type":"Question","name":"What is a comma splice?","acceptedAnswer":{"@type":"Answer","text":"A comma splice joins two independent clauses with only a comma; use a period, semicolon, or conjunction instead."}}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Grammar Helper","item":"https://grammarhelper.org/"},
+      {"@type":"ListItem","position":2,"name":"Punctuation Guide","item":"https://grammarhelper.org/punctuation-guide"}
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1, h2, h3, h4 { color: #f0f0f0; font-weight: 500; }
+    h1 { font-size: 2.2rem; border-left: 6px solid #ff7043; padding-left: 1rem; margin-bottom: 0.5rem; }
+    .accent { color: #ff7043; }
+    .card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+    .mark-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.2rem;
+      justify-content: center;
+      margin: 1rem 0 2rem;
+    }
+    .mark-chip {
+      background: #2a2a2a;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      border: 1px solid #3a3a3a;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mark-chip:hover { border-color: #ff7043; background: #2f2f2f; }
+    .mark-chip.active { border-color: #ff7043; background: #3a2a20; }
+    .collapsible { margin: 0.75rem 0; }
+    .collapsible-header {
+      background: #222;
+      padding: 0.8rem 1.2rem;
+      border-radius: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid #333;
+      transition: 0.2s;
+    }
+    .collapsible-header:hover { border-color: #ff7043; }
+    .collapsible-header .arrow { transition: transform 0.3s; font-size: 1.4rem; }
+    .collapsible.open .arrow { transform: rotate(180deg); }
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      background: #141414;
+      border-radius: 0 0 20px 20px;
+      padding: 0 1.2rem;
+    }
+    .collapsible.open .collapsible-content {
+      max-height: 2000px;
+      padding: 1.2rem 1.2rem 1.8rem;
+    }
+    .rule-list { list-style: none; }
+    .rule-list li { margin-bottom: 0.75rem; padding-left: 1.8rem; position: relative; }
+    .rule-list li::before { content: "•"; color: #ff7043; font-weight: bold; position: absolute; left: 0; }
+    .example { color: #b0b0b0; font-style: italic; margin-top: 0.2rem; padding-left: 1.8rem; border-left: 2px solid #333; }
+    .mistake { background: #2a1a1a; padding: 0.5rem 1rem; border-radius: 30px; display: inline-block; margin: 0.3rem 0; border-left: 4px solid #ff7043; }
+    .exercise-area { background: #1e1e1e; padding: 1rem; border-radius: 20px; margin: 1rem 0; }
+    .exercise-area input { background: #0a0a0a; border: 1px solid #444; color: #e0e0e0; padding: 0.4rem 0.8rem; border-radius: 30px; width: 120px; margin: 0.3rem; }
+    .exercise-area button { background: #ff7043; border: none; color: #0a0a0a; font-weight: 600; padding: 0.4rem 1.2rem; border-radius: 30px; cursor: pointer; margin: 0.3rem; }
+    .exercise-area button:active { transform: scale(0.96); }
+    .feedback { margin-top: 0.4rem; color: #a0d0a0; }
+    .checker-area textarea { width: 100%; background: #111; border: 1px solid #333; color: #ddd; padding: 1rem; border-radius: 20px; min-height: 120px; }
+    .checker-area .issues { background: #1a1a1a; padding: 1rem; border-radius: 16px; margin-top: 0.8rem; white-space: pre-wrap; }
+    .issue-item { color: #ffa07a; }
+    .quiz-block { margin: 1.5rem 0; }
+    .quiz-question { background: #1e1e1e; padding: 1rem 1.5rem; border-radius: 40px; margin: 0.5rem 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+    .quiz-option { background: #2a2a2a; padding: 0.2rem 1rem; border-radius: 30px; cursor: pointer; border: 1px solid #444; }
+    .quiz-option.selected { border-color: #ff7043; background: #3a2a20; }
+    .quiz-option.correct { border-color: #4caf50; background: #1a3a1a; }
+    .quiz-option.wrong { border-color: #f44336; background: #3a1a1a; }
+    .progress-bar { height: 8px; background: #2a2a2a; border-radius: 10px; margin: 1rem 0; }
+    .progress-fill { height: 8px; background: #ff7043; border-radius: 10px; width: 0%; transition: width 0.3s; }
+    footer { margin-top: 3rem; text-align: center; border-top: 1px solid #222; padding-top: 2rem; }
+    footer a { color: #ff7043; text-decoration: none; }
+    .inline-code { background: #2a2a2a; padding: 0.1rem 0.4rem; border-radius: 12px; font-family: monospace; }
+  </style>
+
+    <meta property="og:title" content="Punctuation Rules Guide — Master All Punctuation Marks">
+    <meta property="og:description" content="Interactive punctuation reference: rules, examples, common mistakes, exercises, checker & quiz. Master period, comma, semicolon, colon, apostrophe...">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://grammarhelper.org/tools/punctuation-guide">
+</head>
+<body>
+  <header>
+    <h1>📘 Punctuation Rules Guide</h1>
+    <p style="color:#b0b0b0; margin-bottom: 0.5rem;">Master all punctuation marks — rules, examples, mistakes, exercises, checker &amp; quiz</p>
+    <div class="mark-grid" id="markChips"></div>
+  </header>
+
+  <!-- Main collapsible sections for each punctuation mark -->
+  <div id="punctuationContainer"></div>
+
+  <!-- Punctuation Checker mode -->
+  <section class="card checker-area">
+    <h2>🔍 Punctuation Checker</h2>
+    <p style="margin-bottom:0.5rem; color:#bbb;">Paste text to detect double spaces, missing periods, comma splices, incorrect apostrophes.</p>
+    <textarea id="checkerInput" placeholder="Paste your text here...">It's a beautiful day, the sun is shining, its warmth feels great.  Don't forget you're umbrella</textarea>
+    <button style="background:#ff7043; border:none; padding:0.6rem 2rem; border-radius:40px; font-weight:600; margin:0.5rem 0; cursor:pointer;" onclick="runChecker()">Check punctuation</button>
+    <div id="checkerIssues" class="issues"></div>
+  </section>
+
+  <!-- Quiz mode 20 questions -->
+  <section class="card">
+    <h2>📝 Punctuation Quiz (20 questions)</h2>
+    <div class="progress-bar"><div class="progress-fill" id="quizProgressFill" style="width:0%"></div></div>
+    <div id="quizContainer"></div>
+    <button style="background:#ff7043; border:none; padding:0.6rem 2rem; border-radius:40px; font-weight:600; margin-top:1rem; cursor:pointer;" onclick="resetQuiz()">Reset Quiz</button>
+  </section>
+
+  <footer>
+    <p><a href="https://grammarhelper.org/">← grammarhelper.org</a> — Punctuation guide &amp; tools</p>
+    <p style="color:#666; font-size:0.8rem;">© Grammar Helper — interactive punctuation mastery</p>
+  </footer>
+
+  <script>
+    // ---------- DATA: punctuation marks with rules, examples, mistakes, exercises ----------
+    const marksData = [
+      { id:'period', label:'. Period', rules: [
+        'End declarative sentences: "She walked home."',
+        'Abbreviations: "Dr. Jones" or "etc."',
+        'Decimal numbers: "3.14"',
+        'Ellipsis (three periods): "Wait..."',
+        'After polite requests: "Please close the door."'
+      ], mistakes: ['Missing period at end of sentence', 'Double period ..'] },
+      { id:'comma', label:', Comma', rules: [
+        'Separate items in a list: "apples, oranges, bananas"',
+        'Before conjunctions in compound sentences: "I went, but she stayed."',
+        'After introductory phrases: "However, we arrived late."',
+        'Set off non‑essential clauses: "My brother, who lives in Paris, called."',
+        'In dates: "June 5, 2025"'
+      ], mistakes: ['Comma splice: "I came, I saw."', 'Missing Oxford comma'] },
+      { id:'semicolon', label:'; Semicolon', rules: [
+        'Connect independent clauses: "I like coffee; she prefers tea."',
+        'Separate complex list items: "Paris, France; Rome, Italy; Madrid, Spain."',
+        'Before conjunctive adverbs: "It rained; however, we played."',
+        'Use with "e.g." or "i.e.": "Bring fruit; e.g., apples."',
+        'Avoid capital after semicolon (unless proper noun)'
+      ], mistakes: ['Using semicolon before a dependent clause', 'Overuse'] },
+      { id:'colon', label:': Colon', rules: [
+        'Introduce a list: "Ingredients: flour, eggs, milk."',
+        'Introduce a quote: "He said: “Time is money.”"',
+        'Between hours and minutes: "2:30 PM"',
+        'After a salutation: "Dear Sir:"',
+        'Emphasize a phrase: "I have one goal: to win."'
+      ], mistakes: ['Colon after a verb directly', 'Space before colon'] },
+      { id:'apostrophe', label:"' Apostrophe", rules: [
+        'Possession: "John’s book"',
+        'Contractions: "don’t, it’s, they’re"',
+        'Plural of letters: "A’s and B’s"',
+        'Omit digits: "class of ’99"',
+        'Do not use for possessive pronouns: "its, yours, theirs"'
+      ], mistakes: ["It's vs its confusion", "Apostrophe in plurals (apple's)"] },
+      { id:'quotes', label:'“ ” Quotation marks', rules: [
+        'Direct speech: "She said, “Hello.”"',
+        'Titles of short works: “The Raven”',
+        'Scare quotes: "He is “smart” (ironic)."',
+        'Quotes inside quotes: “He said ‘hi’.”',
+        'Periods and commas inside quotes (US)'
+      ], mistakes: ['Misplaced punctuation outside quotes', 'Unmatched quotes'] },
+      { id:'parentheses', label:'( ) Parentheses', rules: [
+        'Enclose extra info: "He arrived (late) to dinner."',
+        'Clarify abbreviation: "World Health Organization (WHO)"',
+        'List numbers: "We need (1) time, (2) money."',
+        'In-text citations: "(Smith, 2020)"',
+        'Emoticons or asides: "(just kidding)"'
+      ], mistakes: ['Nested parentheses without brackets', 'Overuse'] },
+      { id:'emdash', label:'— Em dash', rules: [
+        'Indicate break: "I think—no, I know—it’s true."',
+        'Replace parentheses: "The girl—only seven—won."',
+        'Show hesitation: "I—I don’t know."',
+        'Set off appositives: "My mother—a teacher—retired."',
+        'No spaces around em dash (modern style)'
+      ], mistakes: ['Using hyphen instead of em dash', 'Spaces around em dash'] },
+      { id:'hyphen', label:'- Hyphen', rules: [
+        'Compound modifiers: "well-known author"',
+        'Numbers: "twenty-one"',
+        'Prefixes with proper nouns: "pre‑Victorian"',
+        'Avoid ambiguity: "re-sign vs resign"',
+        'Spell‑out fractions: "two-thirds"'
+      ], mistakes: ['Hyphen in adverbs ending -ly', 'Missing hyphen in compound'] },
+      { id:'ellipsis', label:'… Ellipsis', rules: [
+        'Omitted words: "She said … then stopped."',
+        'Trailing off: "I wonder if…"',
+        'Pause in dialogue: "But… what if?"',
+        'Three dots only (space before/after optional)',
+        'In brackets for omitted text: "[…]"'
+      ], mistakes: ['Using more than three dots', 'Ellipsis with space before period'] },
+      { id:'exclamation', label:'! Exclamation', rules: [
+        'Strong emotion: "I won!"',
+        'Urgency: "Help!"',
+        'Interjections: "Wow!"',
+        'Emphatic commands: "Stop!"',
+        'Avoid multiple !! (informal)'
+      ], mistakes: ['Overuse in formal writing', 'Double punctuation !?'] },
+      { id:'question', label:'? Question mark', rules: [
+        'Direct question: "Where are you?"',
+        'Rhetorical: "Who cares?"',
+        'Tag questions: "You’re coming, aren’t you?"',
+        'In parentheses for uncertainty: "He was born in 1492(?)."',
+        'No period after question mark'
+      ], mistakes: ['Question mark after indirect question', 'Double punctuation ?!'] },
+      { id:'brackets', label:'[ ] Brackets', rules: [
+        'Clarify quotation: "He said [the report] was late."',
+        'Sic: "They recieved [sic] the award."',
+        'Parentheses inside brackets: "See [Figure 2 (a)]."',
+        'Editorial comments: "[emphasis added]"',
+        'Placeholder: "[name]"'
+      ], mistakes: ['Using parentheses inside parentheses without brackets'] },
+      { id:'slash', label:'/ Slash', rules: [
+        'Alternatives: "and/or"',
+        'Fractions: "1/2"',
+        'Dates: "5/6/2025"',
+        'Poetry line breaks: "The road / diverged"',
+        'Abbreviations: "c/o"'
+      ], mistakes: ['Space before/after slash when not appropriate'] }
+    ];
+
+    // ---------- BUILD UI ----------
+    const container = document.getElementById('punctuationContainer');
+    const chipContainer = document.getElementById('markChips');
+
+    function renderMarks() {
+      container.innerHTML = '';
+      chipContainer.innerHTML = '';
+      marksData.forEach((mark, idx) => {
+        // chip
+        const chip = document.createElement('span');
+        chip.className = 'mark-chip';
+        chip.textContent = mark.label;
+        chip.dataset.id = mark.id;
+        chip.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById('collapsible-' + mark.id);
+          if (target) {
+            target.classList.toggle('open');
+            const isOpen = target.classList.contains('open');
+            chip.classList.toggle('active', isOpen);
+          }
+        });
+        chipContainer.appendChild(chip);
+
+        // collapsible section
+        const div = document.createElement('div');
+        div.className = 'collapsible';
+        div.id = 'collapsible-' + mark.id;
+        const header = document.createElement('div');
+        header.className = 'collapsible-header';
+        header.innerHTML = `<span>${mark.label}</span><span class="arrow">▾</span>`;
+        header.addEventListener('click', () => {
+          div.classList.toggle('open');
+          chip.classList.toggle('active', div.classList.contains('open'));
+        });
+        const content = document.createElement('div');
+        content.className = 'collapsible-content';
+
+        // rules
+        let html = '<h3>Rules</h3><ul class="rule-list">';
+        mark.rules.forEach(r => { html += `<li>${r}</li>`; });
+        html += '</ul>';
+        // mistakes
+        html += '<h4 style="margin-top:1rem;">⚠️ Common mistakes</h4>';
+        mark.mistakes.forEach(m => { html += `<div class="mistake">${m}</div> `; });
+        // interactive exercise
+        html += `<div class="exercise-area"><h4>✏️ Insert correct punctuation</h4>
+          <p style="margin:0.5rem 0;">Type the missing punctuation mark(s) for: <span class="inline-code">${getExercisePrompt(mark.id)}</span></p>
+          <input type="text" id="exInput-${mark.id}" placeholder="e.g. , or ;" style="width:140px">
+          <button onclick="checkExercise('${mark.id}')">Check</button>
+          <div id="exFeedback-${mark.id}" class="feedback"></div>
+        </div>`;
+        content.innerHTML = html;
+        div.appendChild(header);
+        div.appendChild(content);
+        container.appendChild(div);
+      });
+    }
+
+    // simple exercise prompts per mark
+    function getExercisePrompt(id) {
+      const prompts = {
+        period: 'She arrived late _',
+        comma: 'I like apples oranges and bananas _',
+        semicolon: 'I love Paris _ it is romantic',
+        colon: 'You need the following _ courage and luck',
+        apostrophe: 'The dog wagged _its tail',
+        quotes: 'She said _ Hello _',
+        parentheses: 'He finally arrived _ after an hour _',
+        emdash: 'The answer _ I think _ is yes',
+        hyphen: 'A well _ known fact',
+        ellipsis: 'I wonder what would happen _',
+        exclamation: 'Watch out _',
+        question: 'What time is it _',
+        brackets: 'He wrote _sic_ in the text',
+        slash: 'Please include your name _ or ID'
+      };
+      return prompts[id] || 'Insert punctuation _';
+    }
+
+    // exercise check
+    window.checkExercise = function(id) {
+      const input = document.getElementById('exInput-' + id);
+      const feedback = document.getElementById('exFeedback-' + id);
+      const val = input.value.trim();
+      const answers = {
+        period: ['.'],
+        comma: [','],
+        semicolon: [';'],
+        colon: [':'],
+        apostrophe: ["'"],
+        quotes: ['"', '“','”'],
+        parentheses: ['(',')'],
+        emdash: ['—','--'],
+        hyphen: ['-'],
+        ellipsis: ['...','…'],
+        exclamation: ['!'],
+        question: ['?'],
+        brackets: ['[',']'],
+        slash: ['/']
+      };
+      const possible = answers[id] || [];
+      const isCorrect = possible.some(p => val.includes(p) || val === p);
+      feedback.textContent = isCorrect ? '✓ Correct!' : '✗ Try again. Hint: check the rules.';
+      feedback.style.color = isCorrect ? '#8bc34a' : '#ff8a80';
+    };
+
+    // ---------- PUNCTUATION CHECKER ----------
+    window.runChecker = function() {
+      const text = document.getElementById('checkerInput').value;
+      let issues = [];
+      // double spaces
+      const doubleSpaces = text.match(/  +/g);
+      if (doubleSpaces) issues.push(`🔸 Double spaces (${doubleSpaces.length} occurrence(s))`);
+      // missing period at end of sentence (rough)
+      const sentences = text.split(/[.!?]\s*/).filter(s => s.trim().length>2);
+      sentences.forEach(s => {
+        if (!/[.!?]$/.test(s.trim()) && !/[:;]$/.test(s.trim())) {
+          // heuristic: if sentence ends without punctuation and not abbreviation
+          if (!/\b(Dr|Mr|Mrs|Ms|etc|vs)\.?$/i.test(s.trim())) {
+            issues.push(`🔸 Missing period? "...${s.slice(-20).trim()}"`);
+          }
+        }
+      });
+      // comma splice: two independent clauses with only comma (simplified)
+      const commaSplice = text.match(/[^.!?]*, [^.!?]*[,;:]/g);
+      if (commaSplice) issues.push(`🔸 Possible comma splice: "${commaSplice[0].slice(0,40)}..."`);
+      // incorrect apostrophe: its vs it's
+      if (/\bits\s+[a-z]/i.test(text) && !/\bits'/i.test(text)) {
+        // not perfect
+      }
+      if (text.includes("its'")) issues.push("🔸 Incorrect apostrophe: its' (possessive its has no apostrophe)");
+      if (text.includes("your's")) issues.push("🔸 Incorrect: your's (yours has no apostrophe)");
+      
+      const output = document.getElementById('checkerIssues');
+      if (issues.length === 0) output.innerHTML = '✅ No obvious issues detected.';
+      else output.innerHTML = issues.map(i => `<div class="issue-item">${i}</div>`).join('');
+    };
+
+    // ---------- QUIZ (20 questions) ----------
+    const quizData = [
+      { q: 'Which punctuation ends a declarative sentence?', options: ['.', '?', '!', ','], correct: 0 },
+      { q: 'What separates items in a list?', options: [';', ',', ':', '.'], correct: 1 },
+      { q: 'Which mark connects independent clauses without conjunction?', options: [',', ';', ':', '—'], correct: 1 },
+      { q: 'Introduce a list with a …', options: [',', ';', ':', '—'], correct: 2 },
+      { q: 'Possessive of "dog" is …', options: ["dog's", "dogs'", "dogs's", "dog'"], correct: 0 },
+      { q: 'Quotation marks for speech: “Hello _”', options: ['"', "'", '«', '„'], correct: 0 },
+      { q: 'Which dash indicates a break?', options: ['-', '—', '–', '/'], correct: 1 },
+      { q: 'Hyphen used in …', options: ['compound modifier', 'sentence end', 'list', 'quote'], correct: 0 },
+      { q: 'Ellipsis consists of how many dots?', options: ['2', '3', '4', '5'], correct: 1 },
+      { q: 'Exclamation mark shows …', options: ['question', 'emotion', 'pause', 'list'], correct: 1 },
+      { q: 'Question mark after …', options: ['direct question', 'indirect', 'command', 'exclamation'], correct: 0 },
+      { q: 'Brackets used for …', options: ['editorial clarification', 'possession', 'list', 'quote'], correct: 0 },
+      { q: 'Slash separates …', options: ['alternatives', 'sentences', 'clauses', 'possessives'], correct: 0 },
+      { q: 'Colon used after …', options: ['salutation', 'verb', 'preposition', 'conjunction'], correct: 0 },
+      { q: 'Semicolon before …', options: ['conjunctive adverb', 'list', 'quote', 'period'], correct: 0 },
+      { q: 'Apostrophe in contractions: do not → …', options: ["don't", "do'nt", "dont'", "do'nt'"], correct: 0 },
+      { q: 'Parentheses enclose …', options: ['extra info', 'main idea', 'subject', 'verb'], correct: 0 },
+      { q: 'Em dash has spaces?', options: ['usually no', 'always yes', 'only in UK', 'never'], correct: 0 },
+      { q: 'Which is a comma splice?', options: ['I came, I saw.', 'I came; I saw.', 'I came. I saw.', 'I came and saw.'], correct: 0 },
+      { q: 'Correct possessive of "it"?', options: ['its', "it's", "its'", "its's"], correct: 0 }
+    ];
+
+    let quizAnswers = new Array(quizData.length).fill(null);
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
+      let correctCount = 0;
+      quizData.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-question';
+        div.innerHTML = `<strong>${idx+1}.</strong> ${item.q}`;
+        const optDiv = document.createElement('div');
+        optDiv.style.display = 'flex'; optDiv.style.flexWrap = 'wrap'; optDiv.style.gap = '0.4rem 0.8rem';
+        item.options.forEach((opt, optIdx) => {
+          const span = document.createElement('span');
+          span.className = 'quiz-option';
+          span.textContent = opt;
+          if (quizAnswers[idx] === optIdx) {
+            span.classList.add('selected');
+            if (optIdx === item.correct) span.classList.add('correct');
+            else span.classList.add('wrong');
+          }
+          span.addEventListener('click', () => {
+            if (quizAnswers[idx] !== null) return; // lock
+            quizAnswers[idx] = optIdx;
+            renderQuiz();
+            updateProgress();
+          });
+          optDiv.appendChild(span);
+        });
+        div.appendChild(optDiv);
+        container.appendChild(div);
+        if (quizAnswers[idx] !== null && quizAnswers[idx] === item.correct) correctCount++;
+      });
+      document.getElementById('quizProgressFill').style.width = `${(correctCount/quizData.length)*100}%`;
+    }
+
+    function updateProgress() {
+      let correct = 0;
+      quizData.forEach((item, idx) => { if (quizAnswers[idx] === item.correct) correct++; });
+      document.getElementById('quizProgressFill').style.width = `${(correct/quizData.length)*100}%`;
+    }
+
+    window.resetQuiz = function() {
+      quizAnswers = new Array(quizData.length).fill(null);
+      renderQuiz();
+    };
+
+    // initial
+    renderMarks();
+    renderQuiz();
+    // auto run checker on load
+    window.runChecker();
+  </script>
+</body>
+</html>

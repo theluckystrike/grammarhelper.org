@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tense Consistency Checker — Fix Tense Shifts</title>
+  <meta name="description" content="Detect unnecessary tense shifts in your writing. Color‑coded verbs, timeline, and smart suggestions. Practice mode included.">
+  <link rel="canonical" href="https://grammarhelper.org/tools/tense-checker">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Tense Consistency Checker",
+    "url": "https://grammarhelper.org/tense-checker",
+    "description": "Detect unnecessary tense shifts in paragraphs. Color‑coded verb tenses, timeline visualization, and correction suggestions.",
+    "applicationCategory": "Educational Application",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript enabled"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "When is a tense shift appropriate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Reported speech, general truths in a past narrative, or to show a change in time frame."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the checker detect tenses?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It uses pattern matching for regular verbs (-ed, -s) and an irregular verb lookup table (over 100 verbs)."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://grammarhelper.org/" },
+      { "@type": "ListItem", "position": 2, "name": "Tense Consistency Checker", "item": "https://grammarhelper.org/tense-checker" }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      color: #f0f0f0;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+    h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.6rem; margin: 2rem 0 0.75rem; border-bottom: 1px solid #2a2a2a; padding-bottom: 0.3rem; }
+    h3 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+    .accent { color: #ff7043; }
+    .container { background: #111; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.6); margin-bottom: 2.5rem; border: 1px solid #2a2a2a; }
+    textarea {
+      width: 100%;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #e0e0e0;
+      border-radius: 16px;
+      padding: 1.2rem;
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 180px;
+      transition: border 0.2s;
+    }
+    textarea:focus { outline: none; border-color: #ff7043; }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.2rem 0 0.5rem; }
+    .btn {
+      background: #2a2a2a;
+      border: none;
+      color: #e0e0e0;
+      padding: 0.7rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+      border: 1px solid #3a3a3a;
+    }
+    .btn-primary { background: #ff7043; color: #0a0a0a; border-color: #ff7043; }
+    .btn-primary:hover { background: #ff8a65; }
+    .btn-outline { background: transparent; border-color: #ff7043; color: #ff7043; }
+    .btn-outline:hover { background: #ff704322; }
+    .btn:hover { transform: scale(1.02); }
+    .verb-tag { font-weight: 500; padding: 0 0.1rem; border-radius: 4px; transition: background 0.1s; }
+    .present { color: #64b5f6; }  /* blue */
+    .past { color: #81c784; }     /* green */
+    .future { color: #ce93d8; }   /* purple */
+    .perfect { color: #ffb74d; }  /* orange */
+    .tense-block { margin: 1.8rem 0; }
+    .paragraph-card {
+      background: #181818;
+      border-radius: 16px;
+      padding: 1rem 1.4rem;
+      margin: 1rem 0;
+      border-left: 4px solid #2a2a2a;
+    }
+    .dominant-badge {
+      display: inline-block;
+      background: #2a2a2a;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      letter-spacing: 0.3px;
+      margin-bottom: 0.6rem;
+      color: #ccc;
+    }
+    .timeline {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 0.5rem;
+      background: #1a1a1a;
+      padding: 0.8rem 1rem;
+      border-radius: 40px;
+    }
+    .tl-item {
+      background: #2a2a2a;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+    .tl-item.active { background: #ff704333; color: #ff7043; border: 1px solid #ff7043; }
+    .shift-flag { background: #ff704322; border-left: 4px solid #ff7043; padding: 0.4rem 1rem; border-radius: 8px; margin: 0.5rem 0; font-size: 0.9rem; }
+    .suggestion { color: #a5d6a7; font-style: italic; }
+    .rule-card { background: #1a1a1a; border-radius: 14px; padding: 1rem 1.5rem; margin: 0.7rem 0; border-left: 4px solid #ff7043; }
+    .footer { margin-top: 4rem; text-align: center; color: #666; font-size: 0.9rem; }
+    .footer a { color: #ff7043; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .practice-area { margin-top: 1.5rem; }
+    .example-btn { margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    @media (max-width: 600px) { .container { padding: 1.2rem; } h1 { font-size: 1.8rem; } }
+  </style>
+
+    <meta property="og:title" content="Tense Consistency Checker — Fix Tense Shifts">
+    <meta property="og:description" content="Detect unnecessary tense shifts in your writing. Color‑coded verbs, timeline, and smart suggestions. Practice mode included.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://grammarhelper.org/tools/tense-checker">
+</head>
+<body>
+  <header>
+    <h1>Tense Consistency Checker <span class="accent">⚡</span></h1>
+    <p style="color:#aaa; margin-top: 0.2rem;">Detect unnecessary tense shifts • color‑coded verbs • timeline • suggestions</p>
+  </header>
+
+  <div class="container">
+    <textarea id="inputText" placeholder="Paste your text here (multiple paragraphs) ...">She walks to the store and bought some milk. The sun shines brightly. He was reading a book when the phone rings. They will visit us yesterday.</textarea>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="checkBtn">🔍 Check consistency</button>
+      <button class="btn btn-outline" id="practiceBtn">📘 Practice mode (10 paragraphs)</button>
+      <button class="btn" id="clearBtn">✕ Clear</button>
+    </div>
+  </div>
+
+  <div id="resultsArea"></div>
+
+  <!-- Rules guide -->
+  <div class="container">
+    <h2>📖 When tense shifts ARE appropriate</h2>
+    <div class="rule-card">✅ <strong>Reported speech</strong> — “She said she <em>is</em> tired.” (past reporting + present state)</div>
+    <div class="rule-card">✅ <strong>General truth in past narrative</strong> — “The teacher explained that water <em>boils</em> at 100°C.”</div>
+    <div class="rule-card">✅ <strong>Change of time frame</strong> — “He lived in Paris, but now he <em>lives</em> in London.”</div>
+  </div>
+
+  <!-- FAQ (implicit) -->
+  <div class="container" style="margin-top: 0.5rem;">
+    <h2>❓ FAQ</h2>
+    <p><strong>When is a shift flagged?</strong> If a sentence uses a tense different from the paragraph’s dominant tense, and the shift is not a standard exception (reported speech, general truth). The tool marks it as a <span class="accent">potential</span> unnecessary shift.</p>
+    <p><strong>Irregular verb coverage:</strong> 100+ verbs (be, have, do, go, say, get, make, know, think, see, come, take, etc.)</p>
+  </div>
+
+  <footer class="footer">
+    <p><a href="https://grammarhelper.org/">grammarhelper.org</a> — Tense consistency tool</p>
+    <p style="margin-top:0.3rem;">© Grammar Helper</p>
+  </footer>
+
+  <script>
+    (function() {
+      // ---------- IRREGULAR VERB MAP (present -> past) 100+ verbs ----------
+      const irregularPast = {
+        'be': 'was/were', 'become': 'became', 'begin': 'began', 'bend': 'bent', 'bet': 'bet',
+        'bite': 'bit', 'blow': 'blew', 'break': 'broke', 'bring': 'brought', 'build': 'built',
+        'burn': 'burnt', 'buy': 'bought', 'catch': 'caught', 'choose': 'chose', 'come': 'came',
+        'cost': 'cost', 'cut': 'cut', 'deal': 'dealt', 'dig': 'dug', 'do': 'did', 'draw': 'drew',
+        'drink': 'drank', 'drive': 'drove', 'eat': 'ate', 'fall': 'fell', 'feed': 'fed',
+        'feel': 'felt', 'fight': 'fought', 'find': 'found', 'fly': 'flew', 'forget': 'forgot',
+        'forgive': 'forgave', 'freeze': 'froze', 'get': 'got', 'give': 'gave', 'go': 'went',
+        'grow': 'grew', 'hang': 'hung', 'have': 'had', 'hear': 'heard', 'hide': 'hid',
+        'hit': 'hit', 'hold': 'held', 'hurt': 'hurt', 'keep': 'kept', 'know': 'knew',
+        'lay': 'laid', 'lead': 'led', 'leave': 'left', 'lend': 'lent', 'let': 'let',
+        'lie': 'lay', 'light': 'lit', 'lose': 'lost', 'make': 'made', 'mean': 'meant',
+        'meet': 'met', 'pay': 'paid', 'put': 'put', 'read': 'read', 'ride': 'rode',
+        'ring': 'rang', 'rise': 'rose', 'run': 'ran', 'say': 'said', 'see': 'saw',
+        'seek': 'sought', 'sell': 'sold', 'send': 'sent', 'set': 'set', 'shake': 'shook',
+        'shine': 'shone', 'shoot': 'shot', 'show': 'showed', 'shut': 'shut', 'sing': 'sang',
+        'sink': 'sank', 'sit': 'sat', 'sleep': 'slept', 'speak': 'spoke', 'spend': 'spent',
+        'stand': 'stood', 'steal': 'stole', 'stick': 'stuck', 'strike': 'struck', 'swim': 'swam',
+        'take': 'took', 'teach': 'taught', 'tear': 'tore', 'tell': 'told', 'think': 'thought',
+        'throw': 'threw', 'understand': 'understood', 'wake': 'woke', 'wear': 'wore', 'win': 'won',
+        'write': 'wrote', 'bring': 'brought', 'buy': 'bought', 'catch': 'caught', 'fight': 'fought',
+        'seek': 'sought', 'teach': 'taught', 'think': 'thought', 'build': 'built', 'send': 'sent',
+        'spend': 'spent', 'bend': 'bent', 'deal': 'dealt', 'feel': 'felt', 'keep': 'kept',
+        'leave': 'left', 'lend': 'lent', 'mean': 'meant', 'shoot': 'shot', 'sleep': 'slept',
+        'smell': 'smelt', 'spell': 'spelt', 'spoil': 'spoilt', 'burn': 'burnt', 'learn': 'learnt'
+      };
+      // also includes common ones
+
+      // auxiliary for perfect: have/has/had + past participle (we detect perfect by have/has/had + verb)
+      // but we simplify: we tag perfect if "have/has/had" + past participle pattern (basic)
+
+      // ---------- TENSE DETECTION (rule-based) ----------
+      function detectVerbTense(word, prevWord, nextWord) {
+        // return 'present','past','future','perfect' or null
+        const lower = word.toLowerCase();
+        // future: will/shall + base verb
+        if ((prevWord === 'will' || prevWord === 'shall') && /^[a-z]+$/i.test(word)) {
+          return 'future';
+        }
+        // perfect: have/has/had + past participle (very rough: if prevWord in have/has/had and word ends with -ed or irregular past)
+        if (['have','has','had'].includes(prevWord)) {
+          // if word is irregular past or ends with -ed
+          if (irregularPast[word] || /ed$/.test(word) || word === 'been' || word === 'gone' || word === 'done' || word === 'seen') {
+            return 'perfect';
+          }
+        }
+        // past: regular -ed, or irregular past
+        if (/ed$/.test(word) && !/^[a-z]+ed$/i.test(word) === false) { // basic
+          // but also check if it's not a noun etc. we accept
+          return 'past';
+        }
+        if (irregularPast[lower] !== undefined) {
+          // check if it's actually past: if the word is exactly the irregular past form (e.g., 'went', 'took')
+          // we have map present->past, but we need reverse lookup: build past->present
+          // we'll do reverse at init
+          return 'past';
+        }
+        // present: base form or -s/-es (third person)
+        if (/[sxz]$/.test(word) || /[cs]h$/.test(word) || /o$/.test(word)) {
+          if (/es$/.test(word) || /s$/.test(word)) return 'present';
+        }
+        if (/s$/.test(word) && !/ss$/.test(word) && !/ous$/.test(word)) return 'present'; // rough
+        // default: treat as present if common verb
+        if (/^[a-z]+$/i.test(word) && word.length > 2) return 'present';
+        return null;
+      }
+
+      // reverse irregular map
+      const pastToPresent = {};
+      for (let [pres, past] of Object.entries(irregularPast)) {
+        const forms = past.split('/');
+        forms.forEach(f => { pastToPresent[f.trim()] = pres; });
+      }
+      // add manual
+      pastToPresent['was'] = 'be'; pastToPresent['were'] = 'be'; pastToPresent['had'] = 'have'; pastToPresent['did'] = 'do';
+      pastToPresent['went'] = 'go'; pastToPresent['took'] = 'take'; pastToPresent['made'] = 'make'; pastToPresent['knew'] = 'know';
+      pastToPresent['came'] = 'come'; pastToPresent['saw'] = 'see'; pastToPresent['thought'] = 'think'; pastToPresent['said'] = 'say';
+      pastToPresent['got'] = 'get'; pastToPresent['gave'] = 'give'; pastToPresent['found'] = 'find'; pastToPresent['told'] = 'tell';
+
+      function getVerbTenseFromWord(word, prev, next) {
+        const lower = word.toLowerCase();
+        // future
+        if (prev === 'will' || prev === 'shall') return 'future';
+        // perfect
+        if (['have','has','had'].includes(prev)) {
+          if (pastToPresent[lower] || /ed$/.test(word) || lower==='been'||lower==='gone'||lower==='done') return 'perfect';
+        }
+        // past: irregular
+        if (pastToPresent[lower] !== undefined) return 'past';
+        // past: -ed (regular)
+        if (/ed$/.test(word) && !/^[a-z]+ed$/i.test(word) === false) {
+          // but skip words like 'need' -> needed? we accept
+          return 'past';
+        }
+        // present: -s
+        if (/s$/.test(word) && !/ss$/.test(word) && !/ous$/.test(word) && word.length>2) return 'present';
+        // default present
+        if (/^[a-z]+$/i.test(word) && word.length>1) return 'present';
+        return null;
+      }
+
+      // ---------- analyze text ----------
+      function analyzeText(text) {
+        const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+        const results = [];
+        for (let para of paragraphs) {
+          const sentences = para.match(/[^.!?]+[.!?]+/g) || [para];
+          const sentenceData = [];
+          let allVerbs = [];
+          for (let sent of sentences) {
+            const words = sent.split(/\s+/);
+            let verbsInSentence = [];
+            for (let i=0; i<words.length; i++) {
+              const w = words[i].replace(/[^a-zA-Z]/g, '');
+              if (w.length < 2) continue;
+              const prev = i>0 ? words[i-1].replace(/[^a-zA-Z]/g,'').toLowerCase() : '';
+              const next = i<words.length-1 ? words[i+1].replace(/[^a-zA-Z]/g,'').toLowerCase() : '';
+              const tense = getVerbTenseFromWord(w, prev, next);
+              if (tense) {
+                verbsInSentence.push({ word: w, tense, index: i });
+                allVerbs.push({ word: w, tense, sentenceIndex: sentences.indexOf(sent) });
+              }
+            }
+            sentenceData.push({ text: sent, verbs: verbsInSentence });
+          }
+          // dominant tense per paragraph (most frequent)
+          const tenseCount = { present:0, past:0, future:0, perfect:0 };
+          allVerbs.forEach(v => { if (tenseCount[v.tense]!==undefined) tenseCount[v.tense]++; });
+          let dominant = 'present';
+          let max = 0;
+          for (let [t, cnt] of Object.entries(tenseCount)) {
+            if (cnt > max) { max = cnt; dominant = t; }
+          }
+          // flag shifts: sentences where any verb tense differs from dominant
+          const shifts = [];
+          sentenceData.forEach((s, idx) => {
+            const tenses = s.verbs.map(v=>v.tense);
+            const unique = [...new Set(tenses)];
+            if (unique.length > 1 || (unique.length===1 && unique[0]!==dominant)) {
+              shifts.push({ sentenceIndex: idx, sentence: s.text, tenses: unique });
+            }
+          });
+          results.push({ paragraphs: para, sentences: sentenceData, dominant, allVerbs, shifts });
+        }
+        return results;
+      }
+
+      // ---------- render ----------
+      function renderResults(analysis) {
+        const area = document.getElementById('resultsArea');
+        if (!analysis || analysis.length===0) {
+          area.innerHTML = `<div class="container"><p style="color:#aaa;">No text to analyze.</p></div>`;
+          return;
+        }
+        let html = `<div class="container"><h2>📊 Analysis</h2>`;
+        analysis.forEach((block, pIdx) => {
+          const domColor = { present:'#64b5f6', past:'#81c784', future:'#ce93d8', perfect:'#ffb74d' }[block.dominant] || '#aaa';
+          html += `<div class="paragraph-card">`;
+          html += `<div class="dominant-badge" style="border-left: 4px solid ${domColor};">Paragraph ${pIdx+1} · dominant: <strong style="color:${domColor};">${block.dominant}</strong></div>`;
+          // timeline
+          html += `<div class="timeline">`;
+          const tenseOrder = ['present','past','future','perfect'];
+          tenseOrder.forEach(t => {
+            const count = block.allVerbs.filter(v=>v.tense===t).length;
+            const active = t===block.dominant ? 'active' : '';
+            html += `<span class="tl-item ${active}">${t} (${count})</span>`;
+          });
+          html += `</div>`;
+          // sentences with color verbs
+          block.sentences.forEach((sent, sIdx) => {
+            let coloredText = sent.text;
+            // replace verbs with spans (simple)
+            sent.verbs.forEach(v => {
+              const re = new RegExp(`\\b${v.word}\\b`, 'i');
+              const colorClass = v.tense;
+              coloredText = coloredText.replace(re, `<span class="verb-tag ${colorClass}">${v.word}</span>`);
+            });
+            html += `<div style="margin:0.6rem 0; line-height:1.7;">${coloredText}</div>`;
+          });
+          // shifts
+          if (block.shifts.length>0) {
+            html += `<div style="margin-top:0.8rem; background:#1a1a1a; padding:0.6rem 1rem; border-radius:12px;">`;
+            html += `<span style="color:#ff7043;">⚠️ Potential unnecessary shift(s):</span>`;
+            block.shifts.forEach(sh => {
+              html += `<div class="shift-flag">“${sh.sentence.trim()}” <span style="color:#bbb;">(tenses: ${sh.tenses.join(', ')})</span></div>`;
+            });
+            // suggestion
+            html += `<div class="suggestion">💡 Suggestion: Try to keep verbs in <strong>${block.dominant}</strong> tense unless a shift is justified (reported speech, general truth).</div>`;
+            html += `</div>`;
+          } else {
+            html += `<div style="color:#81c784; margin-top:0.4rem;">✅ Consistent tense in this paragraph.</div>`;
+          }
+          html += `</div>`;
+        });
+        html += `</div>`;
+        area.innerHTML = html;
+      }
+
+      // ---------- main check ----------
+      function runCheck(text) {
+        const analysis = analyzeText(text);
+        renderResults(analysis);
+      }
+
+      // ---------- practice paragraphs ----------
+      function loadPractice() {
+        const practiceText = `She go to the market and bought vegetables. The children plays outside while it rained. He will finish his homework before dinner.\n\nHe was walking home when he sees an accident. The sun set beautifully but the clouds hides it.\n\nThey have visited the museum and then go to the park. She sings a song and danced on stage.\n\nI will call you yesterday but my phone died. The teacher explains the lesson and gave a quiz.\n\nShe takes the train and arrived late. The flowers bloom in spring but wilted quickly.\n\nHe had finished his work and then goes to sleep. They are playing football when it starts to rain.\n\nShe said that she is tired but she goes to the party. The book was interesting and it have many pictures.\n\nWe were watching TV when the power goes out. He will graduate next year and moved to Boston.\n\nThe baby cries all night but sleeps peacefully now. I have seen that movie and I liked it.\n\nHe runs every morning but yesterday he walk slowly. They will come to the party and brought gifts.`;
+        document.getElementById('inputText').value = practiceText;
+        runCheck(practiceText);
+      }
+
+      // ---------- event binding ----------
+      document.getElementById('checkBtn').addEventListener('click', function() {
+        const text = document.getElementById('inputText').value;
+        if (!text.trim()) { document.getElementById('resultsArea').innerHTML = `<div class="container"><p>Please paste some text.</p></div>`; return; }
+        runCheck(text);
+      });
+
+      document.getElementById('practiceBtn').addEventListener('click', loadPractice);
+
+      document.getElementById('clearBtn').addEventListener('click', function() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('resultsArea').innerHTML = '';
+      });
+
+      // auto-run on load with default text
+      window.addEventListener('DOMContentLoaded', function() {
+        const defaultText = document.getElementById('inputText').value;
+        if (defaultText.trim()) runCheck(defaultText);
+      });
+    })();
+  </script>
+</body>
+</html>

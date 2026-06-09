@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject-Verb Agreement Checker — Free Tool</title>
+    <meta name="description" content="Free subject-verb agreement checker. Paste text to find and fix agreement errors instantly with detailed explanations and suggestions.">
+    <link rel="canonical" href="https://grammarhelper.org/tools/subject-verb-agreement-checker">
+
+    <meta property="og:title" content="Subject-Verb Agreement Checker — Free Tool">
+    <meta property="og:description" content="Free subject-verb agreement checker. Paste text to find and fix agreement errors instantly with detailed explanations and suggestions.">
+    <meta property="og:url" content="https://grammarhelper.org/tools/subject-verb-agreement-checker">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Subject-Verb Agreement Checker",
+        "description": "Free tool to find and fix subject-verb agreement errors with explanations",
+        "url": "https://grammarhelper.org/tools/subject-verb-agreement-checker",
+        "applicationCategory": "UtilityApplication"
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0e27;
+            color: #e0e6ed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%);
+            padding: 40px 20px;
+            border-bottom: 2px solid #00d4aa;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #00d4aa;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a6b1;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #00d4aa;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: #0f1419;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #e0e6ed;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background-color: #00d4aa;
+            color: #0a0e27;
+        }
+
+        .btn-check:hover {
+            background-color: #00b894;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-clear {
+            background-color: #2d3748;
+            color: #e0e6ed;
+        }
+
+        .btn-clear:hover {
+            background-color: #3d4758;
+        }
+
+        .results-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #2d3748;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .result-item {
+            background: #0f1419;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .result-item.success {
+            border-left-color: #00d4aa;
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .issue-text {
+            margin: 10px 0;
+            padding: 10px;
+            background: #1a1f3a;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.95em;
+            word-break: break-word;
+        }
+
+        .error-highlight {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .rule-explanation {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .rule-title {
+            font-weight: 600;
+            color: #00d4aa;
+            margin-bottom: 5px;
+        }
+
+        .rule-text {
+            color: #c0c6d1;
+            font-size: 0.95em;
+        }
+
+        .suggestion {
+            background: rgba(100, 200, 255, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #64c8ff;
+        }
+
+        .suggestion-label {
+            font-weight: 600;
+            color: #64c8ff;
+            font-size: 0.9em;
+        }
+
+        .summary {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #00d4aa;
+        }
+
+        .summary-stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4aa;
+        }
+
+        .stat-label {
+            color: #a0a6b1;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #1a1f3a;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #2d3748;
+            color: #7a8096;
+            margin-top: 40px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .input-section, .results-section {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2241192243363112" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <h1>Subject-Verb Agreement Checker</h1>
+        <p class="subtitle">Find and fix subject-verb agreement errors instantly</p>
+    </header>
+
+    <div class="container">
+        <div class="input-section">
+            <label for="textInput">Paste your text here:</label>
+            <textarea id="textInput" placeholder="The group of students are working on their project. (Check this for agreement errors)"></textarea>
+            <div class="button-group">
+                <button class="btn-check" onclick="checkAgreement()">Check Agreement</button>
+                <button class="btn-clear" onclick="clearText()">Clear</button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="margin-bottom: 20px; color: #00d4aa;">Analysis Results</h2>
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grammar Helper. Free grammar checking tools. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const agreementPatterns = [
+            {
+                pattern: /\b(The group|The team|The majority|The staff|The crew)\s+of\s+\w+\s+(?:is|am)\b/gi,
+                type: 'collective-subject',
+                rule: 'Collective Nouns with Plural Objects',
+                explanation: 'When a collective noun (group, team, majority, staff, crew) is followed by a plural noun in a prepositional phrase, the collective noun is singular and requires a singular verb.',
+                fix: 'Replace "are" with "is" or "were" with "was"',
+                examples: ['The group of students IS working (not ARE)', 'The team of players HAS arrived (not HAVE)']
+            },
+            {
+                pattern: /\b(Each|Every|Either|Neither)\s+of\s+the\s+\w+\s+(?:are|have)\b/gi,
+                type: 'distributive',
+                rule: 'Distributive Pronouns',
+                explanation: 'Each, every, either, and neither are always singular, even when followed by plural nouns.',
+                fix: 'Use singular verbs: is, has, does',
+                examples: ['Each of the students IS responsible', 'Neither of the options HAS been selected']
+            },
+            {
+                pattern: /\b(One of the \w+|One of those \w+)\s+(?:is|are)\b/gi,
+                type: 'one-of',
+                rule: '"One of" constructions',
+                explanation: '"One of" phrases take singular verbs because "one" is the subject.',
+                fix: 'Use: One of the [plural] IS [verb]',
+                examples: ['One of the students IS late', 'One of those books HAS a torn page']
+            },
+            {
+                pattern: /\b(There|Here)\s+(?:are|is)\s+\w+\s+and\s+\w+/gi,
+                type: 'there-here',
+                rule: 'There/Here + Plural Subject',
+                explanation: 'With "there" or "here" as expletives, the verb agrees with the real subject.',
+                fix: 'Verify subject number matches verb',
+                examples: ['There ARE two solutions', 'Here IS one option']
+            },
+            {
+                pattern: /\b\w+\s+(?:doesn\'t|hasn\'t|don\'t|have)\s+/gi,
+                type: 'third-person',
+                rule: 'Third Person Singular',
+                explanation: 'Third person singular subjects require "doesn\'t" and "hasn\'t", not "don\'t" or "haven\'t".',
+                fix: 'Use: He/She/It doesn\'t / hasn\'t',
+                examples: ['She DOESN\'T like it (not DON\'T)', 'It HAS been done (not HAVE)']
+            },
+            {
+                pattern: /\b(Everyone|Everybody|Everything|Someone|Somebody|Anyone|Anybody)\s+(?:are|have|do|does)\b/gi,
+                type: 'indefinite-pronoun',
+                rule: 'Indefinite Pronouns',
+                explanation: 'Indefinite pronouns (everyone, somebody, anything, etc.) are singular and require singular verbs.',
+                fix: 'Use singular verbs: is, has, does',
+                examples: ['Everyone HAS a choice', 'Something IS wrong']
+            }
+        ];
+
+        function checkAgreement() {
+            const text = document.getElementById('textInput').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            errorMsg.classList.remove('show');
+
+            if (!text) {
+                errorMsg.textContent = 'Please enter some text to check.';
+                errorMsg.classList.add('show');
+                resultsSection.classList.remove('active');
+                return;
+            }
+
+            let issues = [];
+
+            agreementPatterns.forEach(pattern => {
+                let match;
+                const regex = new RegExp(pattern.pattern.source, 'gi');
+
+                while ((match = regex.exec(text)) !== null) {
+                    issues.push({
+                        text: match[0],
+                        index: match.index,
+                        pattern: pattern
+                    });
+                }
+            });
+
+            if (issues.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="result-item success">
+                        <strong>✓ No agreement errors detected</strong>
+                        <p style="margin-top: 10px; color: #a0a6b1;">Your text appears to have correct subject-verb agreement!</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="summary">
+                        <div class="summary-stat">
+                            <div class="stat-number">${issues.length}</div>
+                            <div class="stat-label">Issues Found</div>
+                        </div>
+                    </div>
+                `;
+
+                issues.forEach((issue, idx) => {
+                    html += `
+                        <div class="result-item">
+                            <strong style="color: #ff6b6b;">Issue ${idx + 1}: ${issue.pattern.type}</strong>
+                            <div class="issue-text">
+                                ...${text.substring(Math.max(0, issue.index - 30), issue.index)}<span class="error-highlight">${issue.text}</span>${text.substring(issue.index + issue.text.length, Math.min(text.length, issue.index + issue.text.length + 30))}...
+                            </div>
+                            <div class="rule-explanation">
+                                <div class="rule-title">${issue.pattern.rule}</div>
+                                <div class="rule-text">${issue.pattern.explanation}</div>
+                                <div class="suggestion">
+                                    <div class="suggestion-label">How to fix:</div>
+                                    <div>${issue.pattern.fix}</div>
+                                </div>
+                                <div style="margin-top: 10px; color: #a0a6b1; font-size: 0.9em;">
+                                    <strong>Examples:</strong>
+                                    <ul style="margin-left: 20px; margin-top: 5px;">
+                                        ${issue.pattern.examples.map(ex => `<li>${ex}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+
+            resultsSection.classList.add('active');
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                checkAgreement();
+            }
+        });
+    </script>
+<div style="margin:20px auto;max-width:728px;text-align:center">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2241192243363112" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<div style="margin:30px auto;max-width:728px;text-align:center;padding:18px 24px;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #334155;border-radius:10px">
+<p style="margin:0 0 6px;color:#94a3b8;font-size:0.85rem">Recommended by our team</p>
+<a href="https://www.belikenative.com?ref=satellite" target="_blank" rel="noopener" style="color:#38bdf8;font-weight:600;font-size:1.05rem;text-decoration:none">BeLikeNative.com</a>
+<p style="margin:6px 0 0;color:#cbd5e1;font-size:0.9rem">The #1 AI writing tool for freelancers — perfect grammar in any language, instantly.</p>
+</div>
+</body>
+</html>

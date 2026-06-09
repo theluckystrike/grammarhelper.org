@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallel Structure Checker — Free Grammar Tool</title>
+    <meta name="description" content="Free parallel structure checker. Find and fix parallelism errors in lists and comparisons with detailed suggestions and explanations.">
+    <link rel="canonical" href="https://grammarhelper.org/tools/parallel-structure-checker">
+
+    <meta property="og:title" content="Parallel Structure Checker — Free Grammar Tool">
+    <meta property="og:description" content="Free parallel structure checker. Find and fix parallelism errors in lists and comparisons with detailed suggestions and explanations.">
+    <meta property="og:url" content="https://grammarhelper.org/tools/parallel-structure-checker">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Parallel Structure Checker",
+        "description": "Free tool to find and fix parallelism errors in lists and comparisons with explanations",
+        "url": "https://grammarhelper.org/tools/parallel-structure-checker",
+        "applicationCategory": "UtilityApplication"
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0e27;
+            color: #e0e6ed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%);
+            padding: 40px 20px;
+            border-bottom: 2px solid #00d4aa;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #00d4aa;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a6b1;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #00d4aa;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: #0f1419;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #e0e6ed;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background-color: #00d4aa;
+            color: #0a0e27;
+        }
+
+        .btn-check:hover {
+            background-color: #00b894;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-clear {
+            background-color: #2d3748;
+            color: #e0e6ed;
+        }
+
+        .btn-clear:hover {
+            background-color: #3d4758;
+        }
+
+        .results-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #2d3748;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .result-item {
+            background: #0f1419;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .result-item.success {
+            border-left-color: #00d4aa;
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .issue-text {
+            margin: 12px 0;
+            padding: 12px;
+            background: #1a1f3a;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.95em;
+            word-break: break-word;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .error-highlight {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .explanation-box {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 12px 0;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .issue-type {
+            font-weight: 600;
+            color: #00d4aa;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .issue-explanation {
+            color: #c0c6d1;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .correction-box {
+            background: rgba(100, 200, 255, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid #64c8ff;
+            margin: 12px 0;
+        }
+
+        .correction-label {
+            font-weight: 600;
+            color: #64c8ff;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .correction-option {
+            margin: 8px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            font-family: 'Monaco', monospace;
+            color: #e0e6ed;
+            font-size: 0.9em;
+            word-break: break-word;
+        }
+
+        .structure-breakdown {
+            background: rgba(100, 150, 255, 0.05);
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 3px solid #7a9fd6;
+            font-size: 0.9em;
+        }
+
+        .structure-label {
+            font-weight: 600;
+            color: #7a9fd6;
+            margin-bottom: 6px;
+        }
+
+        .structure-item {
+            margin: 4px 0;
+            padding-left: 12px;
+            color: #c0c6d1;
+        }
+
+        .structure-item.incorrect {
+            color: #ff6b6b;
+        }
+
+        .structure-item.correct {
+            color: #00d4aa;
+        }
+
+        .summary {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #00d4aa;
+        }
+
+        .summary-stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4aa;
+        }
+
+        .stat-label {
+            color: #a0a6b1;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #1a1f3a;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #2d3748;
+            color: #7a8096;
+            margin-top: 40px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .input-section, .results-section {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2241192243363112" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <h1>Parallel Structure Checker</h1>
+        <p class="subtitle">Find and fix parallelism errors in lists and comparisons</p>
+    </header>
+
+    <div class="container">
+        <div class="input-section">
+            <label for="textInput">Paste your text here:</label>
+            <textarea id="textInput" placeholder="She likes reading, swimming, and to hike. (Check for parallel structure errors)"></textarea>
+            <div class="button-group">
+                <button class="btn-check" onclick="checkParallel()">Check Parallelism</button>
+                <button class="btn-clear" onclick="clearText()">Clear</button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="margin-bottom: 20px; color: #00d4aa;">Analysis Results</h2>
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grammar Helper. Free grammar checking tools. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function checkParallel() {
+            const text = document.getElementById('textInput').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            errorMsg.classList.remove('show');
+
+            if (!text) {
+                errorMsg.textContent = 'Please enter some text to check.';
+                errorMsg.classList.add('show');
+                resultsSection.classList.remove('active');
+                return;
+            }
+
+            let issues = [];
+
+            // Check for parallel structure in lists with "and"
+            const listPatterns = [
+                {
+                    pattern: /([a-z]+ing|[a-z]+ed|to\s+[a-z]+|[a-z]+ing)\s*,\s*([a-z]+ing|[a-z]+ed|to\s+[a-z]+|[a-z]+ing)\s*,\s*(?:and\s+)?((?:to\s+)?[a-z]+(?:ing|ed)?)/gi,
+                    type: 'list-structure',
+                    explanation: 'Items in a list should have the same grammatical structure (all gerunds, all infinitives, all past tense, etc.)'
+                },
+                {
+                    pattern: /(?:either|neither)\s+[^,]+\s+(?:or|nor)\s+[^.!?]+/gi,
+                    type: 'either-or',
+                    explanation: 'Elements in either/or and neither/nor constructions should be parallel in structure'
+                },
+                {
+                    pattern: /not\s+only\s+[^,]+\s+but\s+(?:also\s+)?[^.!?]+/gi,
+                    type: 'not-only-but',
+                    explanation: 'Elements in "not only...but also" constructions should be parallel'
+                },
+                {
+                    pattern: /(?:as|like)\s+[^,]+\s+(?:,[^.]*)?\s+as|like\s+[^.!?]+/gi,
+                    type: 'comparison',
+                    explanation: 'Compared items should have parallel structure'
+                }
+            ];
+
+            let detectedIssues = [];
+
+            // More specific pattern for gerund/infinitive mismatch
+            const gerundInfinitiveMismatch = /\b(?:like|enjoy|love|hate|prefer|avoid|practice|finish|consider|mind)\s+(?:[a-z]+ing|to\s+[a-z]+)[,]\s+(?:to\s+[a-z]+|[a-z]+ing)\s*(?:,\s*(?:to\s+[a-z]+|[a-z]+ing)|and\s+(?:to\s+[a-z]+|[a-z]+ing))/gi;
+
+            const gerundMatches = [...text.matchAll(gerundInfinitiveMismatch)];
+            gerundMatches.forEach(match => {
+                const matchText = match[0];
+                const hasGerund = /[a-z]+ing/i.test(matchText);
+                const hasInfinitive = /to\s+[a-z]+/i.test(matchText);
+
+                if (hasGerund && hasInfinitive) {
+                    detectedIssues.push({
+                        type: 'verb-form-mismatch',
+                        found: matchText,
+                        position: match.index,
+                        explanation: 'Verbs after words like "like," "enjoy," "avoid," and "practice" should all be gerunds (-ing), or mixed with "and" consistently.',
+                        correction: 'Use either all gerunds or all infinitives: "like reading, swimming, and hiking" OR "like to read, to swim, and to hike"',
+                        example: 'WRONG: "She likes reading, swimming, and to hike" | CORRECT: "She likes reading, swimming, and hiking"'
+                    });
+                }
+            });
+
+            // Check for comparisons with "as...as"
+            const asAsPattern = /as\s+([a-z]+)\s+as\s+([a-z]+)/gi;
+            const asAsMatches = [...text.matchAll(asAsPattern)];
+            asAsMatches.forEach(match => {
+                const word1 = match[1].toLowerCase();
+                const word2 = match[2].toLowerCase();
+
+                // Basic check: adjectives should be compared
+                const adjectives = /(?:big|small|tall|short|fast|slow|good|bad|easy|hard|happy|sad|beautiful|ugly|smart|wise)/i;
+                if (!adjectives.test(word1 + ' ' + word2)) {
+                    // Could be parallel structure issue
+                    const context = text.substring(Math.max(0, match.index - 40), Math.min(text.length, match.index + match[0].length + 40));
+                    detectedIssues.push({
+                        type: 'comparison-structure',
+                        found: match[0],
+                        position: match.index,
+                        explanation: 'In comparisons using "as...as", ensure the compared elements have the same grammatical structure.',
+                        correction: 'Verify both sides of the comparison are parallel: "as [adjective] as" or "as [noun] as"',
+                        example: 'CORRECT: "as tall as" or "as quickly as" | Compare similar elements on both sides'
+                    });
+                }
+            });
+
+            // Check for series with coordinating conjunctions
+            const seriesPattern = /\b([a-z]+(?:ing|ed|tion)?)\s*,\s*([a-z]+(?:ing|ed|tion)?)\s*,\s*(?:and|or)\s+([a-z]+(?:ing|ed|tion)?)\b/gi;
+            const seriesMatches = [...text.matchAll(seriesPattern)];
+            seriesMatches.forEach(match => {
+                const item1 = match[1].toLowerCase();
+                const item2 = match[2].toLowerCase();
+                const item3 = match[3].toLowerCase();
+
+                // Check if items have consistent endings
+                const endings = [
+                    item1.match(/ing$|ed$|tion$|$/)[0],
+                    item2.match(/ing$|ed$|tion$|$/)[0],
+                    item3.match(/ing$|ed$|tion$|$/)[0]
+                ].filter(e => e);
+
+                if (new Set(endings).size > 1) {
+                    detectedIssues.push({
+                        type: 'series-structure',
+                        found: match[0],
+                        position: match.index,
+                        explanation: 'All items in a series should have the same grammatical form (all nouns, all gerunds, all infinitives, etc.)',
+                        correction: 'Make all items parallel: either all "-ing" forms, all "-ed" forms, all nouns, or all infinitives',
+                        example: 'WRONG: "reading, wrote, and thinking" | CORRECT: "reading, writing, and thinking"'
+                    });
+                }
+            });
+
+            if (detectedIssues.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="result-item success">
+                        <strong>✓ No parallelism errors detected</strong>
+                        <p style="margin-top: 10px; color: #a0a6b1;">Your sentence structure appears to have good parallel form!</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="summary">
+                        <div class="summary-stat">
+                            <div class="stat-number">${detectedIssues.length}</div>
+                            <div class="stat-label">Issues Found</div>
+                        </div>
+                    </div>
+                `;
+
+                detectedIssues.forEach((issue, idx) => {
+                    html += `
+                        <div class="result-item">
+                            <strong style="color: #ff6b6b;">Issue ${idx + 1}: Parallel Structure Error</strong>
+                            <div class="issue-text">
+                                <span class="error-highlight">${escapeHtml(issue.found)}</span>
+                            </div>
+                            <div class="explanation-box">
+                                <div class="issue-type">What's the problem?</div>
+                                <div class="issue-explanation">${issue.explanation}</div>
+                            </div>
+                            <div class="correction-box">
+                                <div class="correction-label">How to fix:</div>
+                                <div class="correction-option">${escapeHtml(issue.correction)}</div>
+                            </div>
+                            <div class="structure-breakdown">
+                                <div class="structure-label">Example:</div>
+                                ${issue.example.split('|').map((ex, i) => {
+                                    const isIncorrect = ex.includes('WRONG');
+                                    const class_ = isIncorrect ? 'incorrect' : 'correct';
+                                    return `<div class="structure-item ${class_}">${escapeHtml(ex.trim())}</div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+
+            resultsSection.classList.add('active');
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                checkParallel();
+            }
+        });
+    </script>
+<div style="margin:20px auto;max-width:728px;text-align:center">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2241192243363112" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<div style="margin:30px auto;max-width:728px;text-align:center;padding:18px 24px;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #334155;border-radius:10px">
+<p style="margin:0 0 6px;color:#94a3b8;font-size:0.85rem">Recommended by our team</p>
+<a href="https://www.belikenative.com?ref=satellite" target="_blank" rel="noopener" style="color:#38bdf8;font-weight:600;font-size:1.05rem;text-decoration:none">BeLikeNative.com</a>
+<p style="margin:6px 0 0;color:#cbd5e1;font-size:0.9rem">The #1 AI writing tool for freelancers — perfect grammar in any language, instantly.</p>
+</div>
+</body>
+</html>

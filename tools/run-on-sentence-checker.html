@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run-On Sentence Checker — Free Tool</title>
+    <meta name="description" content="Free run-on sentence checker. Find and fix run-on sentences and comma splices with multiple correction options instantly.">
+    <link rel="canonical" href="https://grammarhelper.org/tools/run-on-sentence-checker">
+
+    <meta property="og:title" content="Run-On Sentence Checker — Free Tool">
+    <meta property="og:description" content="Free run-on sentence checker. Find and fix run-on sentences and comma splices with multiple correction options instantly.">
+    <meta property="og:url" content="https://grammarhelper.org/tools/run-on-sentence-checker">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Run-On Sentence Checker",
+        "description": "Free tool to identify and fix run-on sentences and comma splices with correction suggestions",
+        "url": "https://grammarhelper.org/tools/run-on-sentence-checker",
+        "applicationCategory": "UtilityApplication"
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0e27;
+            color: #e0e6ed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%);
+            padding: 40px 20px;
+            border-bottom: 2px solid #00d4aa;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #00d4aa;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a6b1;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #00d4aa;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: #0f1419;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #e0e6ed;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background-color: #00d4aa;
+            color: #0a0e27;
+        }
+
+        .btn-check:hover {
+            background-color: #00b894;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-clear {
+            background-color: #2d3748;
+            color: #e0e6ed;
+        }
+
+        .btn-clear:hover {
+            background-color: #3d4758;
+        }
+
+        .results-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #2d3748;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .result-item {
+            background: #0f1419;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .result-item.success {
+            border-left-color: #00d4aa;
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .issue-text {
+            margin: 10px 0;
+            padding: 12px;
+            background: #1a1f3a;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.95em;
+            word-break: break-word;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .error-highlight {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .explanation-box {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .issue-type {
+            font-weight: 600;
+            color: #00d4aa;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .issue-explanation {
+            color: #c0c6d1;
+            font-size: 0.95em;
+        }
+
+        .fixes-container {
+            margin-top: 15px;
+        }
+
+        .fix-option {
+            background: rgba(100, 200, 255, 0.1);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border-left: 3px solid #64c8ff;
+        }
+
+        .fix-title {
+            font-weight: 600;
+            color: #64c8ff;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+        }
+
+        .fix-text {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 3px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #e0e6ed;
+            word-break: break-word;
+        }
+
+        .summary {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #00d4aa;
+        }
+
+        .summary-stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4aa;
+        }
+
+        .stat-label {
+            color: #a0a6b1;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #1a1f3a;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #2d3748;
+            color: #7a8096;
+            margin-top: 40px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .input-section, .results-section {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Run-On Sentence Checker</h1>
+        <p class="subtitle">Find and fix run-on sentences and comma splices</p>
+    </header>
+
+    <div class="container">
+        <div class="input-section">
+            <label for="textInput">Paste your text here:</label>
+            <textarea id="textInput" placeholder="The meeting started at noon it lasted three hours. (Check for run-on sentences)"></textarea>
+            <div class="button-group">
+                <button class="btn-check" onclick="checkRunOns()">Check Sentences</button>
+                <button class="btn-clear" onclick="clearText()">Clear</button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="margin-bottom: 20px; color: #00d4aa;">Analysis Results</h2>
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grammar Helper. Free grammar checking tools. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function checkRunOns() {
+            const text = document.getElementById('textInput').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            errorMsg.classList.remove('show');
+
+            if (!text) {
+                errorMsg.textContent = 'Please enter some text to check.';
+                errorMsg.classList.add('show');
+                resultsSection.classList.remove('active');
+                return;
+            }
+
+            let issues = [];
+
+            // Detect run-on sentences (no punctuation between independent clauses)
+            const runOnPattern = /[a-z]\s+(?:I|you|he|she|it|we|they|[A-Z]\w+)\s+(?:is|are|was|were|have|has|do|does|did|can|could|will|would|shall|should|may|might|must)\s+[\w\s]+(?=[a-z]\s+[A-Z])/gi;
+
+            // Split text into sentences more intelligently
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+
+            sentences.forEach((sentence, idx) => {
+                const trimmed = sentence.trim();
+
+                // Check for comma splice (comma between two independent clauses)
+                const commaPattern = /\b([a-z][^,]*),\s+(?:(?:I|you|he|she|it|we|they|[A-Z]\w+)\s+(?:is|are|was|were|have|has|do|does|did|can|could|will|would|shall|should|may|might|must)|and|but|or|nor|yet|so)\b/g;
+
+                let match;
+                while ((match = commaPattern.exec(trimmed)) !== null) {
+                    const beforeComma = trimmed.substring(0, match.index + match[1].length);
+                    const afterComma = trimmed.substring(match.index + match[1].length);
+
+                    // Check if both sides are independent clauses
+                    if (hasSubjectVerb(beforeComma) && hasSubjectVerb(afterComma.substring(1))) {
+                        issues.push({
+                            type: 'comma-splice',
+                            sentence: trimmed,
+                            problem: match[0],
+                            index: match.index
+                        });
+                    }
+                }
+
+                // Check for run-on sentences (no punctuation between clauses)
+                if (trimmed.match(/[a-z]\s+[A-Z]\w+\s+\w+/) && trimmed.match(/[a-z]\s+[A-Z]\w+\s+\w+(?!.*[.!?])/)) {
+                    const parts = trimmed.split(/(?<=[a-z])\s+(?=[A-Z])/);
+                    if (parts.length > 1 && hasSubjectVerb(parts[0]) && hasSubjectVerb(parts[1])) {
+                        issues.push({
+                            type: 'run-on',
+                            sentence: trimmed,
+                            problem: null,
+                            index: 0
+                        });
+                    }
+                }
+            });
+
+            if (issues.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="result-item success">
+                        <strong>✓ No run-on sentences detected</strong>
+                        <p style="margin-top: 10px; color: #a0a6b1;">Your sentences are properly structured and punctuated!</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="summary">
+                        <div class="summary-stat">
+                            <div class="stat-number">${issues.length}</div>
+                            <div class="stat-label">Issues Found</div>
+                        </div>
+                    </div>
+                `;
+
+                issues.forEach((issue, idx) => {
+                    const fixes = generateFixes(issue);
+                    const issueLabel = issue.type === 'comma-splice' ? 'Comma Splice' : 'Run-On Sentence';
+
+                    html += `
+                        <div class="result-item">
+                            <strong style="color: #ff6b6b;">Issue ${idx + 1}: ${issueLabel}</strong>
+                            <div class="issue-text">
+                                ${escapeHtml(issue.sentence)}
+                            </div>
+                            <div class="explanation-box">
+                                <div class="issue-type">What's the problem?</div>
+                                <div class="issue-explanation">${issue.type === 'comma-splice'
+                                    ? 'A comma cannot connect two independent clauses by itself. This is called a comma splice.'
+                                    : 'Two or more independent clauses are joined without proper punctuation or conjunctions.'}</div>
+                            </div>
+                            <div class="fixes-container">
+                                <div style="font-weight: 600; color: #00d4aa; margin-bottom: 12px; font-size: 0.95em;">Suggested fixes:</div>
+                                ${fixes.map((fix, i) => `
+                                    <div class="fix-option">
+                                        <div class="fix-title">Option ${i + 1}: ${fix.method}</div>
+                                        <div class="fix-text">${escapeHtml(fix.text)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+
+            resultsSection.classList.add('active');
+        }
+
+        function hasSubjectVerb(phrase) {
+            const verbs = /\b(is|are|was|were|have|has|do|does|did|can|could|will|would|shall|should|may|might|must|been|be)\b/i;
+            const subjects = /\b(I|you|he|she|it|we|they|[A-Z]\w+)\b/;
+            return verbs.test(phrase) && subjects.test(phrase);
+        }
+
+        function generateFixes(issue) {
+            const sentence = issue.sentence.replace(/[.!?]$/, '');
+
+            if (issue.type === 'comma-splice') {
+                const parts = sentence.split(/,\s*/);
+                return [
+                    {
+                        method: 'Period',
+                        text: parts[0].trim() + '. ' + capitalize(parts[1].trim())
+                    },
+                    {
+                        method: 'Semicolon',
+                        text: parts[0].trim() + '; ' + parts[1].trim()
+                    },
+                    {
+                        method: 'Coordinating Conjunction',
+                        text: parts[0].trim() + ', and ' + parts[1].trim()
+                    },
+                    {
+                        method: 'Subordinating Conjunction',
+                        text: 'While ' + parts[0].toLowerCase().trim() + ', ' + parts[1].trim()
+                    }
+                ];
+            } else {
+                // Run-on sentence
+                return [
+                    {
+                        method: 'Period',
+                        text: 'Split into two sentences with a period.'
+                    },
+                    {
+                        method: 'Semicolon',
+                        text: 'Use a semicolon to join related independent clauses.'
+                    },
+                    {
+                        method: 'Coordinating Conjunction',
+                        text: 'Add a coordinating conjunction (and, but, or, nor, yet, so) with a comma.'
+                    },
+                    {
+                        method: 'Subordination',
+                        text: 'Make one clause dependent by adding a subordinating conjunction (because, although, while, etc.)'
+                    }
+                ];
+            }
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                checkRunOns();
+            }
+        });
+    </script>
+</body>
+</html>

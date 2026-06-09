@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dangling Modifier Finder — Free Grammar Tool</title>
+    <meta name="description" content="Free dangling modifier finder. Paste text to detect and fix dangling and misplaced modifiers with detailed corrections and explanations.">
+    <link rel="canonical" href="https://grammarhelper.org/tools/dangling-modifier-finder">
+
+    <meta property="og:title" content="Dangling Modifier Finder — Free Grammar Tool">
+    <meta property="og:description" content="Free dangling modifier finder. Paste text to detect and fix dangling and misplaced modifiers with detailed corrections and explanations.">
+    <meta property="og:url" content="https://grammarhelper.org/tools/dangling-modifier-finder">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Dangling Modifier Finder",
+        "description": "Free tool to find and fix dangling and misplaced modifiers with explanations",
+        "url": "https://grammarhelper.org/tools/dangling-modifier-finder",
+        "applicationCategory": "UtilityApplication"
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0e27;
+            color: #e0e6ed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%);
+            padding: 40px 20px;
+            border-bottom: 2px solid #00d4aa;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #00d4aa;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a6b1;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #00d4aa;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: #0f1419;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #e0e6ed;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background-color: #00d4aa;
+            color: #0a0e27;
+        }
+
+        .btn-check:hover {
+            background-color: #00b894;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-clear {
+            background-color: #2d3748;
+            color: #e0e6ed;
+        }
+
+        .btn-clear:hover {
+            background-color: #3d4758;
+        }
+
+        .results-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #2d3748;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .result-item {
+            background: #0f1419;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .result-item.success {
+            border-left-color: #00d4aa;
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .issue-text {
+            margin: 10px 0;
+            padding: 10px;
+            background: #1a1f3a;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.95em;
+            word-break: break-word;
+        }
+
+        .error-highlight {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .explanation-box {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .issue-type {
+            font-weight: 600;
+            color: #00d4aa;
+            margin-bottom: 5px;
+        }
+
+        .issue-explanation {
+            color: #c0c6d1;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .correction-box {
+            background: rgba(100, 200, 255, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid #64c8ff;
+            margin: 10px 0;
+        }
+
+        .correction-label {
+            font-weight: 600;
+            color: #64c8ff;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .correction-option {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            color: #e0e6ed;
+        }
+
+        .summary {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #00d4aa;
+        }
+
+        .summary-stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4aa;
+        }
+
+        .stat-label {
+            color: #a0a6b1;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #1a1f3a;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #2d3748;
+            color: #7a8096;
+            margin-top: 40px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .input-section, .results-section {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dangling Modifier Finder</h1>
+        <p class="subtitle">Detect and fix dangling and misplaced modifiers</p>
+    </header>
+
+    <div class="container">
+        <div class="input-section">
+            <label for="textInput">Paste your text here:</label>
+            <textarea id="textInput" placeholder="Walking down the street, the trees were beautiful. (Check for dangling modifiers)"></textarea>
+            <div class="button-group">
+                <button class="btn-check" onclick="findModifiers()">Find Modifiers</button>
+                <button class="btn-clear" onclick="clearText()">Clear</button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="margin-bottom: 20px; color: #00d4aa;">Analysis Results</h2>
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grammar Helper. Free grammar checking tools. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const modifierPatterns = [
+            {
+                pattern: /^[A-Z][\w\s,]*(?:ing|ed)\b[,.]?\s+(?:the\s+)?(?:author|narrator|writer|reader|listener|observer|viewer|teacher|student)\b/gm,
+                type: 'dangling-participle',
+                name: 'Dangling Participle',
+                explanation: 'A participle phrase (verb form ending in -ing or -ed) appears at the start but the subject is not the one performing the action.',
+                correction: 'Either change the subject or restructure the phrase to clarify who is performing the action.',
+                examples: [
+                    'WRONG: "Walking to school, the rain started." → CORRECT: "While walking to school, I noticed the rain started."',
+                    'WRONG: "Exhausted from the hike, my tent was inviting." → CORRECT: "Exhausted from the hike, I found my tent inviting."'
+                ]
+            },
+            {
+                pattern: /(?:While|After|Before|During|Since|Upon|As)\s+[\w\s]+ing\b,\s+(?:the|a|an)\s+\w+/gm,
+                type: 'misplaced-modifier',
+                name: 'Misplaced Introductory Phrase',
+                explanation: 'The introductory phrase does not clearly modify the subject that follows it.',
+                correction: 'Rearrange the sentence so the modifier is next to the word it modifies.',
+                examples: [
+                    'WRONG: "While cooking dinner, the phone rang." → CORRECT: "While I was cooking dinner, the phone rang."',
+                    'WRONG: "After reading the book, the movie seemed disappointing." → CORRECT: "After reading the book, I found the movie disappointing."'
+                ]
+            },
+            {
+                pattern: /\b(?:Looking|Considering|Given|Thinking|Assuming|Believing)\s+(?:that|about)?\s+[\w\s]+[,.]\s+(?:we|they|it|this|that|the)/gm,
+                type: 'dangling-phrase',
+                name: 'Dangling Introductory Phrase',
+                explanation: 'A phrase modifies the wrong noun or has no clear subject.',
+                correction: 'Clarify the subject of the introductory phrase or restructure the sentence.',
+                examples: [
+                    'WRONG: "Considering the evidence, it was clear he was guilty." → CORRECT: "Considering the evidence, we concluded he was guilty."',
+                    'WRONG: "Looking at the data, several trends emerged." → CORRECT: "When looking at the data, I identified several trends."'
+                ]
+            },
+            {
+                pattern: /(?:To\s+[\w\s]+,)\s+(?:it|a\s+\w+|the\s+\w+)\b/gm,
+                type: 'dangling-infinitive',
+                name: 'Dangling Infinitive',
+                explanation: 'An infinitive phrase at the start doesn\'t match the subject of the main clause.',
+                correction: 'Change the subject to match who is performing the action in the infinitive.',
+                examples: [
+                    'WRONG: "To understand the problem, more data is needed." → CORRECT: "To understand the problem, we need more data."',
+                    'WRONG: "To be successful, hard work is required." → CORRECT: "To be successful, you must work hard."'
+                ]
+            },
+            {
+                pattern: /\b(?:In|On|At|By|With|From)\s+[\w\s]+[,]\s+(?:the|a|an)\s+\w+\s+(?:was|were|is|are)/gm,
+                type: 'misplaced-prepositional',
+                name: 'Misplaced Prepositional Phrase',
+                explanation: 'A prepositional phrase at the start seems to modify the wrong noun.',
+                correction: 'Place the modifier closer to the noun it actually modifies.',
+                examples: [
+                    'WRONG: "In the parking lot, the car was stolen." → CORRECT: "The car was stolen in the parking lot."',
+                    'WRONG: "By the river, the beautiful mansion was visible." → CORRECT: "The beautiful mansion by the river was visible."'
+                ]
+            }
+        ];
+
+        function findModifiers() {
+            const text = document.getElementById('textInput').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            errorMsg.classList.remove('show');
+
+            if (!text) {
+                errorMsg.textContent = 'Please enter some text to check.';
+                errorMsg.classList.add('show');
+                resultsSection.classList.remove('active');
+                return;
+            }
+
+            let issues = [];
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+
+            sentences.forEach(sentence => {
+                modifierPatterns.forEach(pattern => {
+                    const match = sentence.match(pattern.pattern);
+                    if (match) {
+                        issues.push({
+                            sentence: sentence.trim(),
+                            match: match[0],
+                            pattern: pattern
+                        });
+                    }
+                });
+            });
+
+            if (issues.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="result-item success">
+                        <strong>✓ No dangling modifiers detected</strong>
+                        <p style="margin-top: 10px; color: #a0a6b1;">Your modifiers appear to be correctly placed!</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="summary">
+                        <div class="summary-stat">
+                            <div class="stat-number">${issues.length}</div>
+                            <div class="stat-label">Potential Issues</div>
+                        </div>
+                    </div>
+                `;
+
+                issues.forEach((issue, idx) => {
+                    html += `
+                        <div class="result-item">
+                            <strong style="color: #ff6b6b;">Issue ${idx + 1}: ${issue.pattern.name}</strong>
+                            <div class="issue-text">
+                                <span class="error-highlight">${escapeHtml(issue.match)}</span>
+                            </div>
+                            <div class="explanation-box">
+                                <div class="issue-type">${issue.pattern.name}</div>
+                                <div class="issue-explanation">${issue.pattern.explanation}</div>
+                            </div>
+                            <div class="correction-box">
+                                <div class="correction-label">How to fix:</div>
+                                <div>${issue.pattern.correction}</div>
+                            </div>
+                            <div style="background: rgba(100, 150, 255, 0.05); padding: 15px; border-radius: 4px; margin-top: 10px;">
+                                <strong style="color: #a0a6b1; font-size: 0.9em;">Examples:</strong>
+                                <ul style="margin-left: 20px; margin-top: 8px; color: #c0c6d1;">
+                                    ${issue.pattern.examples.map(ex => `<li style="margin: 5px 0; font-size: 0.9em;">${ex}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+
+            resultsSection.classList.add('active');
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                findModifiers();
+            }
+        });
+    </script>
+</body>
+</html>

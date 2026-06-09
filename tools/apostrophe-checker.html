@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostrophe Usage Checker — Free Grammar Tool</title>
+    <meta name="description" content="Free apostrophe checker tool. Find and fix its/it's, possessive, and plural apostrophe errors with detailed explanations and rules.">
+    <link rel="canonical" href="https://grammarhelper.org/tools/apostrophe-checker">
+
+    <meta property="og:title" content="Apostrophe Usage Checker — Free Grammar Tool">
+    <meta property="og:description" content="Free apostrophe checker tool. Find and fix its/it's, possessive, and plural apostrophe errors with detailed explanations and rules.">
+    <meta property="og:url" content="https://grammarhelper.org/tools/apostrophe-checker">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Apostrophe Usage Checker",
+        "description": "Free tool to find and fix apostrophe errors including its/it's, possessives, and plurals with explanations",
+        "url": "https://grammarhelper.org/tools/apostrophe-checker",
+        "applicationCategory": "UtilityApplication"
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0e27;
+            color: #e0e6ed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%);
+            padding: 40px 20px;
+            border-bottom: 2px solid #00d4aa;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #00d4aa;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a6b1;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #00d4aa;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: #0f1419;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: #e0e6ed;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background-color: #00d4aa;
+            color: #0a0e27;
+        }
+
+        .btn-check:hover {
+            background-color: #00b894;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-clear {
+            background-color: #2d3748;
+            color: #e0e6ed;
+        }
+
+        .btn-clear:hover {
+            background-color: #3d4758;
+        }
+
+        .results-section {
+            background: #1a1f3a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #2d3748;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .result-item {
+            background: #0f1419;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .result-item.success {
+            border-left-color: #00d4aa;
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .issue-text {
+            margin: 10px 0;
+            padding: 12px;
+            background: #1a1f3a;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.95em;
+            word-break: break-word;
+        }
+
+        .error-highlight {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .rule-box {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .rule-type {
+            font-weight: 600;
+            color: #00d4aa;
+            margin-bottom: 8px;
+        }
+
+        .rule-explanation {
+            color: #c0c6d1;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .correction-box {
+            background: rgba(100, 200, 255, 0.1);
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #64c8ff;
+        }
+
+        .correction-label {
+            font-weight: 600;
+            color: #64c8ff;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+        }
+
+        .correction-text {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 3px;
+            font-family: 'Monaco', monospace;
+            color: #e0e6ed;
+            font-size: 0.9em;
+        }
+
+        .examples {
+            background: rgba(100, 150, 255, 0.05);
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #7a9fd6;
+        }
+
+        .examples-label {
+            font-weight: 600;
+            color: #7a9fd6;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .example-item {
+            margin: 6px 0;
+            padding-left: 12px;
+            color: #c0c6d1;
+            font-size: 0.9em;
+        }
+
+        .correct {
+            color: #00d4aa;
+        }
+
+        .incorrect {
+            color: #ff6b6b;
+        }
+
+        .summary {
+            background: rgba(0, 212, 170, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #00d4aa;
+        }
+
+        .summary-stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4aa;
+        }
+
+        .stat-label {
+            color: #a0a6b1;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #1a1f3a;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #2d3748;
+            color: #7a8096;
+            margin-top: 40px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .input-section, .results-section {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Apostrophe Usage Checker</h1>
+        <p class="subtitle">Find and fix apostrophe errors: its/it's, possessives, and contractions</p>
+    </header>
+
+    <div class="container">
+        <div class="input-section">
+            <label for="textInput">Paste your text here:</label>
+            <textarea id="textInput" placeholder="The cat lost it's toy. The dogs bone was buried. (Check for apostrophe errors)"></textarea>
+            <div class="button-group">
+                <button class="btn-check" onclick="checkApostrophes()">Check Apostrophes</button>
+                <button class="btn-clear" onclick="clearText()">Clear</button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="margin-bottom: 20px; color: #00d4aa;">Analysis Results</h2>
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grammar Helper. Free grammar checking tools. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const apostropheRules = [
+            {
+                pattern: /\bit's\b/gi,
+                context: 'possessive',
+                rule: 'Its vs. It\'s',
+                explanation: 'Use "it\'s" only when it\'s a contraction of "it is" or "it has". For possession, use "its" (without apostrophe).',
+                detection: 'Found "it\'s" - verify if this is meant to be a contraction or possessive.',
+                checkFunction: (match, context) => {
+                    // Need more context to determine if it's correct
+                    return /\bit's\s+(?:is|has|a|an|the|not|going|been|very)/.test(context);
+                }
+            },
+            {
+                pattern: /\bits\b(?!\s+(?:is|has))/gi,
+                context: 'possessive-correct',
+                rule: 'Its vs. It\'s',
+                explanation: 'Use "its" (without apostrophe) for possession. Use "it\'s" only when you mean "it is" or "it has".',
+                detection: 'Found "its" used correctly for possession.',
+                checkFunction: () => true
+            },
+            {
+                pattern: /\b([a-z]+)'s\s+([a-z]+)\b/gi,
+                context: 'singular-possessive',
+                rule: 'Singular Possessive',
+                explanation: 'For singular nouns, add apostrophe + s to show possession.',
+                detection: 'Singular possessive appears correct.',
+                checkFunction: () => true
+            },
+            {
+                pattern: /\b([a-z]+)s'\s+([a-z]+)\b/gi,
+                context: 'plural-possessive',
+                rule: 'Plural Possessive',
+                explanation: 'For plural nouns ending in s, add only an apostrophe (no s) to show possession.',
+                detection: 'Plural possessive appears correct.',
+                checkFunction: () => true
+            },
+            {
+                pattern: /\b([a-z]+)\s+([a-z]+)\b(?='s|\s)/gi,
+                context: 'missing-apostrophe',
+                rule: 'Missing Apostrophe (Common Plurals)',
+                explanation: 'Some words are commonly misspelled with missing apostrophes (dogs instead of dog\'s, its instead of it\'s).',
+                detection: 'This may need an apostrophe for possession.',
+                checkFunction: (match) => {
+                    const commonMissing = /\b(the|a|an)\s+(dogs|cats|books|students|teachers|peoples|friends|parents)\b/i;
+                    return !commonMissing.test(match);
+                }
+            },
+            {
+                pattern: /\b(?:who|whose)'s\b/gi,
+                context: 'who-contraction',
+                rule: 'Who\'s vs. Whose',
+                explanation: 'Use "who\'s" for "who is" or "who has". Use "whose" for possession.',
+                detection: 'Found "who\'s" - verify context.',
+                checkFunction: (match, context) => /who's\s+(?:is|has|been|going)/.test(context)
+            },
+            {
+                pattern: /\b(?:they|there|their)'re\b/gi,
+                context: 'contraction',
+                rule: 'Common Contractions',
+                explanation: 'Contractions use apostrophes to replace letters. "They\'re" = "they are", "there\'s" = "there is", "they\'re" ≠ "their".',
+                detection: 'Contraction found.',
+                checkFunction: () => true
+            }
+        ];
+
+        function checkApostrophes() {
+            const text = document.getElementById('textInput').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            errorMsg.classList.remove('show');
+
+            if (!text) {
+                errorMsg.textContent = 'Please enter some text to check.';
+                errorMsg.classList.add('show');
+                resultsSection.classList.remove('active');
+                return;
+            }
+
+            let issues = [];
+
+            // Check for its/it's confusion
+            const itsMatches = [...text.matchAll(/\bit('?s)\b/gi)];
+            itsMatches.forEach(match => {
+                const before = text.substring(Math.max(0, match.index - 50), match.index);
+                const after = text.substring(match.index + match[0].length, Math.min(text.length, match.index + match[0].length + 50));
+                const context = before + match[0] + after;
+
+                if (match[1].toLowerCase() === "'s") {
+                    // "it's" used - check if correct
+                    if (!/it's\s+(?:is|has|[a-z]+ing|not|very|going|been|a|an|the)/i.test(context)) {
+                        issues.push({
+                            type: 'its-its-error',
+                            found: match[0],
+                            position: match.index,
+                            rule: 'Its vs. It\'s',
+                            explanation: '"It\'s" is a contraction of "it is" or "it has". If showing possession, use "its" (no apostrophe).',
+                            correction: 'its',
+                            context: context,
+                            example: 'The cat licked its paws. / It\'s a beautiful day. (not It\'s paws)'
+                        });
+                    }
+                }
+            });
+
+            // Check for missing apostrophes in possessives
+            const possessivePatterns = [
+                /\b(the|a|an)\s+(dogs|cats|books|students|teachers|friends|parents|children|peoples)\s+/gi,
+                /\b(\w+)\s+(job|home|car|bag|pen|book|desk|idea)\b(?!'s)/gi
+            ];
+
+            possessivePatterns.forEach(pattern => {
+                const matches = [...text.matchAll(pattern)];
+                matches.forEach(match => {
+                    if (!text.substring(match.index, match.index + match[0].length).includes("'s")) {
+                        const word = match[0].trim().split(/\s+/).pop();
+                        issues.push({
+                            type: 'missing-possessive',
+                            found: match[0],
+                            position: match.index,
+                            rule: 'Missing Possessive Apostrophe',
+                            explanation: `The word "${word}" appears to need an apostrophe to show possession.`,
+                            correction: word + "'s",
+                            context: match[0],
+                            example: 'The dog\'s bone / The students\' books'
+                        });
+                    }
+                });
+            });
+
+            // Check for who's vs whose
+            const whoseMatches = [...text.matchAll(/\b(who's|whose)\b/gi)];
+            whoseMatches.forEach(match => {
+                const before = text.substring(Math.max(0, match.index - 30), match.index);
+                const after = text.substring(match.index + match[0].length, Math.min(text.length, match.index + match[0].length + 30));
+                const context = before + match[0] + after;
+
+                if (match[1].toLowerCase() === "who's") {
+                    // Check if "who is" or "who has" makes sense
+                    if (!/who's\s+(?:is|has|[a-z]+ing|not|very|been|here|there)/i.test(context)) {
+                        issues.push({
+                            type: 'whos-error',
+                            found: match[0],
+                            position: match.index,
+                            rule: 'Who\'s vs. Whose',
+                            explanation: '"Who\'s" is a contraction of "who is" or "who has". For possession, use "whose" (no apostrophe).',
+                            correction: 'whose',
+                            context: context,
+                            example: 'Who\'s coming? (who is) / Whose book is this? (not Who\'s)'
+                        });
+                    }
+                }
+            });
+
+            if (issues.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="result-item success">
+                        <strong>✓ No apostrophe errors detected</strong>
+                        <p style="margin-top: 10px; color: #a0a6b1;">Your apostrophe usage appears to be correct!</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="summary">
+                        <div class="summary-stat">
+                            <div class="stat-number">${issues.length}</div>
+                            <div class="stat-label">Issues Found</div>
+                        </div>
+                    </div>
+                `;
+
+                issues.forEach((issue, idx) => {
+                    html += `
+                        <div class="result-item">
+                            <strong style="color: #ff6b6b;">Issue ${idx + 1}: ${issue.rule}</strong>
+                            <div class="issue-text">
+                                <span class="error-highlight">${escapeHtml(issue.found)}</span>
+                            </div>
+                            <div class="rule-box">
+                                <div class="rule-type">${issue.rule}</div>
+                                <div class="rule-explanation">${issue.explanation}</div>
+                            </div>
+                            <div class="correction-box">
+                                <div class="correction-label">Correction:</div>
+                                <div class="correction-text">${escapeHtml(issue.correction)}</div>
+                            </div>
+                            <div class="examples">
+                                <div class="examples-label">Examples:</div>
+                                <div class="example-item"><span class="correct">✓ Correct:</span> ${escapeHtml(issue.example.split('/')[0].trim())}</div>
+                                ${issue.example.includes('/') ? `<div class="example-item"><span class="incorrect">✗ Incorrect:</span> ${escapeHtml(issue.example.split('/')[1].trim())}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+
+            resultsSection.classList.add('active');
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                checkApostrophes();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -9,9 +9,26 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "grammarhelper",
-  "url": "https://grammarhelper.org"
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://grammarhelper.org/#website",
+      "name": "Grammar Helper",
+      "url": "https://grammarhelper.org/",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://grammarhelper.org/#webpage",
+      "url": "https://grammarhelper.org/",
+      "name": "Grammar Helper - Free Online Grammar Check & Writing Tools",
+      "description": "Free online tools — more coming soon.",
+      "isPartOf": {
+        "@id": "https://grammarhelper.org/#website"
+      },
+      "inLanguage": "en"
+    }
+  ]
 }
 </script>
 <style>
@@ -29,6 +46,7 @@ p{font-size:1.2rem;color:#999;margin-bottom:2rem}
 <body>
 <div class="container">
 <h1>Tools & Resources</h1>
+<div class="answer-block" style="margin:18px 0;padding:16px 20px;background:#111a33;border-left:4px solid #00d4aa;border-radius:6px;text-align:left"><p style="margin:0;color:#e0e6ed;font-size:1.05rem;line-height:1.6">Grammar Helper collects free browser tools for grammar and writing: article usage, comma splice detection, punctuation, run-on fixing, sentence diagramming, subject-verb agreement, tense and voice. Each tool marks a problem in pasted text and explains the rule. No account is needed.</p><p class="updated" style="margin:8px 0 0;color:#94a3b8;font-size:0.85rem">Updated 2026-10-28</p></div>
 <p>Free online tools — more coming soon.</p>
 <div class="tools-grid" id="tools"><div class="tool-card"><a href="/tools/article-usage">article usage</a></div><div class="tool-card"><a href="/tools/comma-splice-detector">comma splice detector</a></div><div class="tool-card"><a href="/tools/punctuation-guide">punctuation guide</a></div><div class="tool-card"><a href="/tools/run-on-fixer">run on fixer</a></div><div class="tool-card"><a href="/tools/sentence-diagrammer">sentence diagrammer</a></div><div class="tool-card"><a href="/tools/subject-verb-agreement">subject verb agreement</a></div><div class="tool-card"><a href="/tools/tense-checker">tense checker</a></div><div class="tool-card"><a href="/tools/voice-converter">voice converter</a></div></div>
 </div>
